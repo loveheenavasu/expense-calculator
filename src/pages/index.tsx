@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { Stack ,Text,HStack} from '@chakra-ui/react'
 import { useAppSelector } from '@/hooks/dispatchSelectHook'
@@ -7,7 +6,6 @@ import { RootState } from '@/services/redux-store/store'
 import SimpleSidebar from '@/components/sidebar'
 import Navbar from '@/components/navbar'
 
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const incomeData = useAppSelector((state: RootState) =>state.expenses.income
@@ -33,47 +31,49 @@ const totalExpenses = expenseData.reduce(
       <main>
       <Stack
         h={"100vh"}
-        w={{ sm: "100vw", base: "100vw", md: "90vw", lg: "90vw" }}
+        w={'100vw'}
       >
         <SimpleSidebar />
         <Stack
           w={{ sm: "100vw", base: "100vw", md: "90vw", lg: "90vw" }}
-          ml={{ sm: "none", base: "none", md: "3rem", lg: "3rem" }}
+          ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}
         >
-          <Navbar title="Expenses" />
-          <Text ml={"1rem"}>Summary</Text>
+          <Navbar title="Expenses and Income Summary " />
           <Stack
-            // ml={"1rem"}
             direction={{ base: "column", sm: "column", md: "row", lg: "row" }}
+            wrap={'wrap'}
           >
-            {/* <h1>Expense Tracker</h1> */}
         <Stack m={"1rem"} direction={{ base: "column", sm: "column", md: "row", lg: "row" }}>
         <Stack
+              border={"1px solid black"}
+              borderRadius={"8px"}
               minWidth={"310px"}
               padding={"8px"}
             >
-              <Text fontSize={"1rem"} fontWeight={"700"}>
-                Total Income
-              </Text>
-              <Text>{totalIncome}</Text>
+              <Text color={'#8A94A6'}>Total Income</Text>
+              <Text fontWeight={'bold'} color={'gray'} fontSize='2rem'>{totalIncome}</Text>
             </Stack>
             <Stack
               minWidth={"310px"}
               padding={"8px"}
+              border={"1px solid black"}
+              borderRadius={"8px"}
             >
-              <Text fontSize={"1rem"} fontWeight={"700"}>
+              <Text fontSize={"1rem"} fontWeight={"700"} color={'#8A94A6'}>
                 Total Expenses
               </Text>
-              <Text>{totalExpenses}</Text>
+              <Text fontWeight={'bold'} color={'gray'} fontSize='2rem'>{totalExpenses}</Text>
             </Stack>
             <Stack
               minWidth={"310px"}
               padding={"8px"}
+              border={"1px solid black"}
+              borderRadius={"8px"}
             >
-              <Text fontSize={"1rem"} fontWeight={"700"}>
+              <Text fontSize={"1rem"} fontWeight={"700"} color={'#8A94A6'}>
                 Total Amount remaining
               </Text>
-              <Text>{totalIncome-totalExpenses}</Text>
+              <Text fontWeight={'bold'} color={'gray'} fontSize='2rem'>{totalIncome-totalExpenses}</Text>
             </Stack>
         </Stack>
 

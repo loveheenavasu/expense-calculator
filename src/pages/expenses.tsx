@@ -18,8 +18,8 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import React, { ReactElement, useState } from "react";
-import { IoIosAddCircle } from "react-icons/io";
-import { MdModeEdit } from "react-icons/md";
+import { VscAdd } from "react-icons/vsc";
+import { MdDelete } from "react-icons/md";
 
 function Expenses() {
   const [expensesModalOpen, setExpensesModal] = useState(false);
@@ -49,9 +49,8 @@ dispatch(deleteExpenseById(id))
 
         <Stack
           w={{ sm: "100vw", base: "100vw", md: "90vw", lg: "90vw" }}
-          ml={{ sm: "none", base: "none", md: "3rem", lg: "3rem" }}
+          ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}
         >
-          <Navbar title="Expenses" />
           <Text m={"1rem"}>Summary</Text>
           <Stack
             m={"1rem"}
@@ -63,8 +62,8 @@ dispatch(deleteExpenseById(id))
               minWidth={"310px"}
               padding={"8px"}
             >
-              <Text>Total expenses</Text>
-              <Text>{expenseData.length}</Text>
+              <Text color={'#8A94A6'}>Total expenses</Text>
+              <Text fontWeight={'bold'} color={'gray'} fontSize='2rem'>{expenseData.length}</Text>
             </Stack>
             <Stack
               border={"1px solid black"}
@@ -72,13 +71,13 @@ dispatch(deleteExpenseById(id))
               minWidth={"310px"}
               padding={"8px"}
             >
-              <Text> Total Amount</Text>
-              <Text> {totalExpenses}</Text>
+              <Text color={'#8A94A6'}> Total Amount</Text>
+              <Text fontWeight={'bold'} color={'gray'} fontSize='2rem'> {totalExpenses}</Text>
             </Stack>
             <IconButton
               colorScheme="blue"
               aria-label="Search database"
-              icon={<IoIosAddCircle />}
+              icon={<VscAdd />}
               size={"lg"}
               onClick={() => setExpensesModal(!expensesModalOpen)}
             />
@@ -113,7 +112,7 @@ dispatch(deleteExpenseById(id))
                           <IconButton
                             colorScheme="blue"
                             aria-label="Search database"
-                            icon={<MdModeEdit />}
+                            icon={<MdDelete />}
                             size={"sm"}
                             onClick={()=>deleteHandler(expense.id)}
                           />

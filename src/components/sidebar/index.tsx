@@ -15,6 +15,7 @@ import {
   BoxProps,
   FlexProps,
   Stack,
+  HStack,
 } from '@chakra-ui/react'
 import {
   FiHome,
@@ -28,6 +29,7 @@ import {IoIosWallet} from 'react-icons/io';
 import { IconType } from 'react-icons'
 import { ReactText } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router';
 
 interface LinkItemProps {
   name: string
@@ -36,16 +38,17 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
   { name: 'Home', icon: FiHome,href:'/'},
-  { name: 'Trending', icon: FiTrendingUp,href:'/expenses'},
-  { name: 'Explore', icon: IoIosWallet,href:'/income' },
+  { name: 'Expenses', icon: FiTrendingUp,href:'/expenses'},
+  { name: 'Income', icon: IoIosWallet,href:'/income' },
   { name: 'Favourites', icon: FiStar },
   { name: 'Settings', icon: FiSettings },
 ]
 
 export default function SimpleSidebar() {
   const { isOpen, onOpen, onClose } = useDisclosure()
+
   return (
-    <Box minH="10vh">
+    <Box width={'30vw'}>
       <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
       <Drawer
         isOpen={isOpen}
@@ -53,8 +56,9 @@ export default function SimpleSidebar() {
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}
-        size='xs'>
-        <DrawerContent>
+        size='xs'
+        >
+        <DrawerContent maxWidth={'30vw !important'}>
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
@@ -73,16 +77,16 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       bg={useColorModeValue('white', 'gray.900')}
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: '30', md: 30,lg:50 }}
+      w={{ base: '30vw', md:40,lg:40}}
       pos="fixed"
       h="full"
       {...rest}>
-      <Flex  alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="xl" fontFamily="monospace" fontWeight="bold" >
-        {/* Expense Tracker */}
-        </Text>
+      <HStack  alignItems="center" mx="8" justifyContent="space-between" dir='row'>
+        {/* <Text fontSize="md" fontFamily="monospace" fontWeight="bold" >
+        Expenses 
+        </Text> */}
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
-      </Flex>
+      </HStack>
       {LinkItems.map((link:any) => (
         <NavItem key={link.name} icon={link.icon} href={link?.href}>
           {link.name}
@@ -113,6 +117,11 @@ const NavItem = ({ icon, children,href }: NavItemProps) => {
           color: 'white',
         }}>
         {icon && (
+          <>
+          <HStack>
+          <Text gap={'.5rem'}>
+            {children}
+            </Text>
           <Icon
             mr="4"
             fontSize="16"
@@ -121,6 +130,8 @@ const NavItem = ({ icon, children,href }: NavItemProps) => {
             }}
             as={icon}
           />
+          </HStack>
+          </>
         )}
     </Stack>
   )
@@ -129,7 +140,21 @@ const NavItem = ({ icon, children,href }: NavItemProps) => {
 interface MobileProps extends FlexProps {
   onOpen: () => void
 }
+function getRouteText(pathname:string) {
+  switch (pathname) {
+    case '/':
+      return 'Expenses';
+    case '/expenses':
+      return 'Expenses';
+    case '/income':
+      return 'Income';
+    default:
+      return 'Expense Tracker'; 
+  }
+}
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const route=useRouter();
+  const routeText = getRouteText(route.pathname);
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -149,7 +174,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       />
 
       <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
-       Expense Tracker
+       {routeText}
       </Text>
     </Flex>
   )

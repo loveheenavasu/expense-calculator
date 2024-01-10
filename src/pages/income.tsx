@@ -17,8 +17,8 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import React, { ReactElement, useState } from "react";
-import { IoIosAddCircle } from "react-icons/io";
-import { MdModeEdit } from "react-icons/md";
+import { VscAdd } from "react-icons/vsc";
+import { MdDelete } from "react-icons/md";
 
 function Income() {
   const [isIncomeModalOpen, setIncomeModal] = useState(false);
@@ -37,7 +37,7 @@ function Income() {
     <>
       <Stack
         h={"100vh"}
-        w={{ sm: "100vw", base: "100vw", md: "90vw", lg: "90vw" }}
+        w={'100vw'}
       >
         <SimpleSidebar />
         {isIncomeModalOpen && (
@@ -45,10 +45,9 @@ function Income() {
         )}
         <Stack
           w={{ sm: "100vw", base: "100vw", md: "90vw", lg: "90vw" }}
-          ml={{ sm: "none", base: "none", md: "3rem", lg: "3rem" }}
+          ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}
         >
-          <Navbar title="Income" />
-          <Text m={"1rem"}>Summary</Text>
+          <Text m={"1.5rem"} fontWeight={'600'}>Summary</Text>
           <Stack
             m={"1rem"}
             direction={{ base: "column", sm: "column", md: "row", lg: "row" }}
@@ -56,26 +55,30 @@ function Income() {
             <Stack
               minWidth={"310px"}
               padding={"8px"}
+              border={"1px solid black"}
+              borderRadius={"8px"}
             >
-              <Text fontSize={"1rem"} fontWeight={"700"}>
+              <Text fontSize={"1rem"}  color={'#8A94A6'}>
                 Total Income
               </Text>
-              <Text>{incomeData.length}</Text>
+              <Text fontWeight={'bold'} color={'gray'} fontSize='2rem'>{incomeData.length}</Text>
             </Stack>
             <Stack
+             border={"1px solid black"}
+             borderRadius={"8px"}
               minWidth={"310px"}
               padding={"8px"}
             >
-              <Text fontSize={"1rem"} fontWeight={"700"}>
+              <Text fontSize={"1rem"}  color={'#8A94A6'}>
                 {" "}
                 Total Amount
               </Text>
-              <Text> {totalIncome}</Text>
+              <Text fontWeight={'bold'} color={'gray'} fontSize='2rem'> {totalIncome}</Text>
             </Stack>
             <IconButton
               colorScheme="blue"
               aria-label="Search database"
-              icon={<IoIosAddCircle />}
+              icon={<VscAdd/>}
               size={"lg"}
               onClick={() => setIncomeModal(!isIncomeModalOpen)}
             />
@@ -113,7 +116,7 @@ function Income() {
                           <IconButton
                             colorScheme="blue"
                             aria-label="Search database"
-                            icon={<MdModeEdit />}
+                            icon={<MdDelete />}
                             size={"sm"}
                             onClick={() => deleteHandler(income.id)}
                           />
