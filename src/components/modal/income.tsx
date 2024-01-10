@@ -16,7 +16,8 @@ import {
   Select,
   Icon,
   Textarea,
-  useDisclosure
+  useDisclosure,
+  useToast
 } from "@chakra-ui/react";
 import { CommonModalProps } from "../types";
 import * as Yup from "yup";
@@ -29,6 +30,7 @@ import { useAppSelector } from "@/hooks/dispatchSelectHook";
 export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
   const { onClose } = useDisclosure();
   const dispatch = useDispatch();
+  const toast=useToast();
   const incomeData = useAppSelector((state: RootState) => state.expenses.income);
   const initialValues = {
     name_type: "",
@@ -60,6 +62,13 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
   const handleAddIncome = (values:any) => {
     const id=Date.now()
     dispatch(addIncome({...values,id}));
+    toast({
+      position:'top-right',
+      description: "Expense added Sucessfully.",
+      status: 'success',
+      duration: 2000,
+      isClosable: true,
+    })
     handleClose();
   };
   return (
@@ -69,11 +78,14 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
         isOpen={isOpen}
         onClose={handleClose}
       >
-        <ModalOverlay />
+        <ModalOverlay backdropFilter='blur(10px)'/>
         <ModalContent
           style={{
             borderRadius: "24px",
             marginBottom: "0px",
+            border:"1px solid gray",
+            background:'black',
+            color:'white'
           }}
         >
           <ModalCloseButton />
@@ -113,9 +125,9 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                           <Input
                             pr="4.5rem"
                             placeholder="First Name"
-                            backgroundColor="white"
                             type="text"
                             name="name_type"
+                            borderColor={'GrayText'}
                             onChange={handleChange}
                           />
                           <Text color={'red'}>{errors.name_type}</Text>
@@ -131,6 +143,7 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                               name="amount"
                               min={0}
                               max={300000}
+                              borderColor={'GrayText'}
                             />
                             <Text color={'red'}>{errors.amount}</Text>
                           </Box>
@@ -139,9 +152,17 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                             <Input
                               pr="4.5rem"
                               placeholder="10/04/20"
-                              bg={"white"}
                               type="date"
                               name="receivedDate"
+                              colorScheme="white"
+                              gap={'1rem'}
+                              borderColor={'GrayText'}
+                              css={`
+                        ::-webkit-calendar-picker-indicator {
+                            background: url(https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/calendar-16.png) center/80% no-repeat;
+                            // color: white;
+                        }
+                    `}
                               onChange={handleChange}
                             />
                           </Box>
@@ -154,7 +175,7 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                         >
                           <Box w={"100%"}>
                             <FormLabel>Category</FormLabel>
-                            <Select placeholder="" onChange={handleChange} name="category">
+                            <Select placeholder="" onChange={handleChange} name="category" borderColor={'GrayText'}>
                               <option value="Salary">Salary</option>
                               <option value="Passive Income">Passive Income</option>
                               <option value="Youtube">Youtube</option>
@@ -172,6 +193,7 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                             placeholder="Description for Income"
                             onChange={handleChange}
                             name="description"
+                            borderColor={'GrayText'}
                           />
                           <Text color={'red'}>{errors.description}</Text>
                           <Box

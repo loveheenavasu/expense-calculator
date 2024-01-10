@@ -37,12 +37,25 @@ interface LinkItemProps {
   href?:string
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: FiHome,href:'/'},
+  { name: 'Overview', icon: FiHome,href:'/'},
   { name: 'Expenses', icon: FiTrendingUp,href:'/expenses'},
   { name: 'Income', icon: IoIosWallet,href:'/income' },
   { name: 'Favourites', icon: FiStar },
   { name: 'Settings', icon: FiSettings },
 ]
+
+export function getRouteText(pathname:string) {
+  switch (pathname) {
+    case '/':
+      return 'Expenses';
+    case '/expenses':
+      return 'Expenses';
+    case '/income':
+      return 'Income';
+    default:
+      return 'Expense Tracker'; 
+  }
+}
 
 export default function SimpleSidebar() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -73,26 +86,27 @@ interface SidebarProps extends BoxProps {
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
-    <Box
-      bg={useColorModeValue('white', 'gray.900')}
+    <Stack
+      // bg={useColorModeValue('white', 'gray.900')}
+      bg={'black'}
       borderRight="1px"
-      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+      borderColor={'GrayText'}
       w={{ base: '30vw', md:40,lg:40}}
       pos="fixed"
       h="full"
       {...rest}>
-      <HStack  alignItems="center" mx="8" justifyContent="space-between" dir='row'>
+      <HStack  alignItems="center" ml="1rem" justifyContent="flex-end" dir='row'>
         {/* <Text fontSize="md" fontFamily="monospace" fontWeight="bold" >
         Expenses 
         </Text> */}
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} ml={'1rem'} color='white'/>
       </HStack>
       {LinkItems.map((link:any) => (
-        <NavItem key={link.name} icon={link.icon} href={link?.href}>
+        <NavItem key={link.name} icon={link.icon} href={link.href}>
           {link.name}
         </NavItem>
       ))}
-    </Box>
+    </Stack>
   )
 }
 
@@ -102,56 +116,50 @@ interface NavItemProps extends FlexProps {
   href:string
 }
 const NavItem = ({ icon, children,href }: NavItemProps) => {
-  return (
-    <Stack
-      as={'a'}
-      href={href}
-      style={{ textDecoration: 'none' }}
-      _focus={{ boxShadow: 'none' }}
-        p="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: 'cyan.400',
-          color: 'white',
-        }}>
-        {icon && (
-          <>
-          <HStack>
-          <Text gap={'.5rem'}>
-            {children}
-            </Text>
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: 'white',
-            }}
-            as={icon}
-          />
-          </HStack>
-          </>
-        )}
-    </Stack>
+  return (typeof href==='string'&&<Link href={href}>
+  <Stack
+    // as={'a'}
+    // href={href}
+    style={{ textDecoration: 'none' ,marginTop:'1rem'}}
+    _focus={{ boxShadow: 'none' }}
+    _active={{bg:'gray.400'}}
+    color='white'
+      p="4"
+      borderRadius="lg"
+      role="group"
+      cursor="pointer"
+      _hover={{
+        bg: '#27272a',
+        color: 'white',
+      }}
+      justify-content={'center'}
+      >
+      {icon && (
+        <>
+        <HStack _active={{color:'gray'}}>
+        <Text gap={'.5rem'}>
+          {children}
+          </Text>
+        <Icon
+          mr="4"
+          fontSize="16"
+          _groupHover={{
+            color: 'white',
+          }}
+          as={icon}
+        />
+        </HStack>
+        </>
+      )}
+  </Stack>
+  </Link>
   )
 }
 
 interface MobileProps extends FlexProps {
   onOpen: () => void
 }
-function getRouteText(pathname:string) {
-  switch (pathname) {
-    case '/':
-      return 'Expenses';
-    case '/expenses':
-      return 'Expenses';
-    case '/income':
-      return 'Income';
-    default:
-      return 'Expense Tracker'; 
-  }
-}
+
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const route=useRouter();
   const routeText = getRouteText(route.pathname);
@@ -161,19 +169,20 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       px={{ base: 4, md: 24 }}
       height="20"
       alignItems="center"
-      bg={useColorModeValue('white', 'gray.900')}
-      borderBottomWidth="1px"
+      // background={'white'}
+      // borderBottomWidth="1px"
       borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
       justifyContent="flex-start"
       {...rest}>
       <IconButton
         variant="outline"
+        color={'white'}
         onClick={onOpen}
         aria-label="open menu"
         icon={<FiMenu />}
       />
 
-      <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
+      <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold" color={'white'}>
        {routeText}
       </Text>
     </Flex>

@@ -9,7 +9,7 @@ interface ButtonProps {
 
 export const CustomButton= ({children,type,fontSize} :ButtonProps) => {
   return (
-    <Button colorScheme="teal" maxW={'180px'} type={type||'submit'}>
+    <Button color="black" bg='white' width={'100%'} type={type||'submit'}>
       <Text fontSize={fontSize}>{children}</Text>
     </Button>
   )
