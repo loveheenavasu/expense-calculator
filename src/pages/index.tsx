@@ -10,15 +10,9 @@ import Navbar from '@/components/navbar'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const incomeData = useAppSelector((state: RootState) =>
-  state.expenses.income.filter((item: any) =>
-    Object.values(item).some((value) => !!value)
-  )
+  const incomeData = useAppSelector((state: RootState) =>state.expenses.income
 );
-const expenseData = useAppSelector((state: RootState) =>
-  state.expenses.expenses.filter((item: any) =>
-    Object.values(item).some((value) => !!value)
-  )
+const expenseData = useAppSelector((state: RootState) =>state.expenses.expenses
 );
   const totalIncome = incomeData.reduce(
     (total, income) => total + Number(income.amount),
