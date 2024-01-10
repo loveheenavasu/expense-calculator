@@ -30,7 +30,6 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
   const { onClose } = useDisclosure();
   const dispatch = useDispatch();
   const incomeData = useAppSelector((state: RootState) => state.expenses.income);
-  console.log("incomeData", incomeData);
   const initialValues = {
     name_type: "",
     amount:0,
@@ -59,11 +58,9 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
     setIsOpen(false);
   };
   const handleAddIncome = (values:any) => {
-    console.log(values,":values");
     const id=Date.now()
     dispatch(addIncome({...values,id}));
     handleClose();
-    console.log("named exit");
   };
   return (
     <>
@@ -101,7 +98,6 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                     initialValues={initialValues}
                     validationSchema={validationSchema}
                     onSubmit={(values) => {
-                      console.log('submit fired::');
                       handleAddIncome(values);
                     }} 
                   >
@@ -164,14 +160,6 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                               <option value="Youtube">Youtube</option>
                             </Select>
                           </Box>
-                          {/* <Box w={"50%"}>
-                            <FormLabel>Paid via</FormLabel>
-                            <Select placeholder="" onChange={handleChange} name="paidVia">
-                              <option value="UPI">UPI</option>
-                              <option value="Net Banking">Net Banking</option>
-                              <option value="E-Wallet">E-Wallet</option>
-                            </Select>
-                          </Box> */}
                         </InputGroup>
 
                         <InputGroup

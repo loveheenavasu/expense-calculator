@@ -30,7 +30,6 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
   const { onClose } = useDisclosure();
   const dispatch = useDispatch();
   const expensesData = useAppSelector((state: RootState) => state.expenses);
-  console.log("expensesData", expensesData);
   const initialValues = {
     name_type: "",
     price:0,
@@ -61,12 +60,9 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
     setIsOpen(false);
   };
   const handleAddExpense = (values:any) => {
-    console.log(values,":values");
     const id=Date.now()
-    console.log("id",id)
     dispatch(addExpense({ ...values, id }));
     handleClose();
-    console.log("named exit");
   };
   return (
     <>
@@ -104,7 +100,6 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                     initialValues={initialValues}
                     validationSchema={validationSchema}
                     onSubmit={(values) => {
-                      console.log('submit fired::');
                       handleAddExpense(values);
                     }} 
                   >
@@ -195,7 +190,6 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                             width={"100%"}
                             justifyContent={"center"}
                           >
-                            {/* <Button type="submit"> Add</Button> */}
                             <CustomButton type="submit" fontSize={"1rem"}>
                               Add
                             </CustomButton>
