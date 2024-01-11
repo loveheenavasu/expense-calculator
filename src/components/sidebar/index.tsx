@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import React from 'react'
+import React from "react";
 import {
   IconButton,
   Box,
@@ -16,7 +16,7 @@ import {
   FlexProps,
   Stack,
   HStack,
-} from '@chakra-ui/react'
+} from "@chakra-ui/react";
 import {
   FiHome,
   FiTrendingUp,
@@ -24,144 +24,154 @@ import {
   FiStar,
   FiSettings,
   FiMenu,
-} from 'react-icons/fi'
-import {IoIosWallet} from 'react-icons/io';
-import { IconType } from 'react-icons'
-import { ReactText } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/router';
+} from "react-icons/fi";
+import { IoIosWallet } from "react-icons/io";
+import { IconType } from "react-icons";
+import { ReactText } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface LinkItemProps {
-  name: string
-  icon: IconType
-  href?:string
+  name: string;
+  icon: IconType;
+  href?: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Overview', icon: FiHome,href:'/'},
-  { name: 'Expenses', icon: FiTrendingUp,href:'/expenses'},
-  { name: 'Income', icon: IoIosWallet,href:'/income' },
-  { name: 'Favourites', icon: FiStar },
-  { name: 'Settings', icon: FiSettings },
-]
+  { name: "Overview", icon: FiHome, href: "/" },
+  { name: "Expenses", icon: FiTrendingUp, href: "/expenses" },
+  { name: "Income", icon: IoIosWallet, href: "/income" },
+  { name: "Favourites", icon: FiStar },
+  { name: "Settings", icon: FiSettings },
+];
 
-export function getRouteText(pathname:string) {
+export function getRouteText(pathname: string) {
   switch (pathname) {
-    case '/':
-      return 'Expenses';
-    case '/expenses':
-      return 'Expenses';
-    case '/income':
-      return 'Income';
+    case "/":
+      return "Expenses";
+    case "/expenses":
+      return "Expenses";
+    case "/income":
+      return "Income";
     default:
-      return 'Expense Tracker'; 
+      return "Expense Tracker";
   }
 }
 
 export default function SimpleSidebar() {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box width={'30vw'}>
-      <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
+    <Box width={"30vw"}>
+      <SidebarContent
+        onClose={() => onClose}
+        display={{ base: "none", md: "block" }}
+      />
       <Drawer
         isOpen={isOpen}
         placement="left"
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}
-        size='xs'
-        >
-        <DrawerContent maxWidth={'30vw !important'}>
+        size="xs"
+      >
+        <DrawerContent maxWidth={"30vw !important"}>
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
+      <MobileNav display={{ base: "flex", md: "none" }} onOpen={onOpen} />
     </Box>
-  )
+  );
 }
 
 interface SidebarProps extends BoxProps {
-  onClose: () => void
+  onClose: () => void;
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
     <Stack
       // bg={useColorModeValue('white', 'gray.900')}
-      bg={'black'}
+      bg={"#0d1325"}
       borderRight="1px"
-      borderColor={'GrayText'}
-      w={{ base: '30vw', md:40,lg:40}}
+      borderColor={"GrayText"}
+      w={{ base: "30vw", md: 40, lg: 40 }}
       pos="fixed"
       h="full"
-      {...rest}>
-      <HStack  alignItems="center" ml="1rem" justifyContent="flex-end" dir='row'>
+      {...rest}
+    >
+      <HStack alignItems="center" ml="1rem" justifyContent="flex-end" dir="row">
         {/* <Text fontSize="md" fontFamily="monospace" fontWeight="bold" >
         Expenses 
         </Text> */}
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} ml={'1rem'} color='white'/>
+        <CloseButton
+          display={{ base: "flex", md: "none" }}
+          onClick={onClose}
+          ml={"1rem"}
+          color="white"
+        />
       </HStack>
-      {LinkItems.map((link:any) => (
+      {LinkItems.map((link: any) => (
         <NavItem key={link.name} icon={link.icon} href={link.href}>
           {link.name}
         </NavItem>
       ))}
     </Stack>
-  )
-}
+  );
+};
 
 interface NavItemProps extends FlexProps {
-  icon: IconType
-  children: ReactText
-  href:string
+  icon: IconType;
+  children: ReactText;
+  href: string;
 }
-const NavItem = ({ icon, children,href }: NavItemProps) => {
-  return (typeof href==='string'&&<Link href={href}>
-  <Stack
-    // as={'a'}
-    // href={href}
-    style={{ textDecoration: 'none' ,marginTop:'1rem'}}
-    _focus={{ boxShadow: 'none' }}
-    _active={{bg:'gray.400'}}
-    color='white'
-      p="4"
-      borderRadius="lg"
-      role="group"
-      cursor="pointer"
-      _hover={{
-        bg: '#27272a',
-        color: 'white',
-      }}
-      justify-content={'center'}
-      >
-      {icon && (
-        <>
-        <HStack _active={{color:'gray'}}>
-        <Text gap={'.5rem'}>
-          {children}
-          </Text>
-        <Icon
-          mr="4"
-          fontSize="16"
-          _groupHover={{
-            color: 'white',
+const NavItem = ({ icon, children, href }: NavItemProps) => {
+  return (
+    typeof href === "string" && (
+      <Link href={href}>
+        <Stack
+          // as={'a'}
+          // href={href}
+          style={{ textDecoration: "none", marginTop: "1rem" }}
+          _focus={{ boxShadow: "none" }}
+          _active={{ bg: "gray.400" }}
+          color="white"
+          p="4"
+          borderRadius="lg"
+          role="group"
+          cursor="pointer"
+          _hover={{
+            bg: "gray",
+            color: "white",
           }}
-          as={icon}
-        />
-        </HStack>
-        </>
-      )}
-  </Stack>
-  </Link>
-  )
-}
+          justify-content={"center"}
+        >
+          {icon && (
+            <>
+              <HStack _active={{ color: "gray" }}>
+                <Text gap={".5rem"}>{children}</Text>
+                <Icon
+                  mr="4"
+                  fontSize="16"
+                  _groupHover={{
+                    color: "white",
+                  }}
+                  as={icon}
+                />
+              </HStack>
+            </>
+          )}
+        </Stack>
+      </Link>
+    )
+  );
+};
 
 interface MobileProps extends FlexProps {
-  onOpen: () => void
+  onOpen: () => void;
 }
 
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
-  const route=useRouter();
+  const route = useRouter();
   const routeText = getRouteText(route.pathname);
   return (
     <Flex
@@ -171,20 +181,28 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       alignItems="center"
       // background={'white'}
       // borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
+      borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent="flex-start"
-      {...rest}>
+      {...rest}
+    >
       <IconButton
         variant="outline"
-        color={'white'}
+        color={"white"}
         onClick={onOpen}
         aria-label="open menu"
+        _hover={{bg:'gray',color:'white'}}
         icon={<FiMenu />}
       />
 
-      <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold" color={'white'}>
-       {routeText}
+      <Text
+        fontSize="2xl"
+        ml="8"
+        fontFamily="monospace"
+        fontWeight="bold"
+        color={"white"}
+      >
+        {routeText}
       </Text>
     </Flex>
-  )
-}
+  );
+};

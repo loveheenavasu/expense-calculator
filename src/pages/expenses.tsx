@@ -38,7 +38,7 @@ function Expenses() {
     toast({
       position: "top-right",
       description: "Expense deleted Sucessfully.",
-      status: "warning",
+      status: "success",
       duration: 2000,
       isClosable: true,
     });
@@ -50,7 +50,7 @@ function Expenses() {
 
   return (
     <>
-      <Stack h={"100vh"} w={"100vw"} bg={"black"}>
+      <Stack h={"100vh"} w={"100vw"} bg={"#0d1325"}>
         <SimpleSidebar />
         {expensesModalOpen && (
           <ExpensesModal
@@ -60,9 +60,9 @@ function Expenses() {
         )}
 
         <Stack
-          w={{ sm: "100vw", base: "100vw", md: "90vw", lg: "90vw" }}
+          // w={{ sm: "100vw", base: "100vw", md: "90vw", lg: "90vw" }}
           ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}
-          h={'100vh'}
+          // h={'100vh'}
         >
           <Text
             ml={"1rem"}
@@ -73,7 +73,11 @@ function Expenses() {
           >
             {routePath}
           </Text>
-          <Divider color={"white"} width={"80vw"} ml={"1rem"} />
+          <Divider
+            color={"white"}
+            width={{ base: "90vw", sm: "90vw", md: "70vw", lg: "80vw" }}
+            ml={"1rem"}
+          />
           <Stack
             m={"1rem"}
             direction={{ base: "column", sm: "column", md: "row", lg: "row" }}
@@ -81,7 +85,7 @@ function Expenses() {
             <Stack
               border={"1px solid gray"}
               borderRadius={"8px"}
-              minWidth={"310px"}
+              width={{ base: "unset", md: "310px", lg: "310px" }}
               padding={"8px"}
             >
               <Text color={"#8A94A6"}>Total expenses</Text>
@@ -92,7 +96,7 @@ function Expenses() {
             <Stack
               border={"1px solid gray"}
               borderRadius={"8px"}
-              minWidth={"310px"}
+              width={{ base: "unset", md: "310px", lg: "310px" }}
               padding={"8px"}
             >
               <Text color={"#8A94A6"}> Total Amount</Text>
@@ -105,6 +109,7 @@ function Expenses() {
               aria-label="Search database"
               icon={<VscAdd />}
               size={"md"}
+              w={{sm:'200px',md:'unset',lg:'unset'}}
               onClick={() => setExpensesModal(!expensesModalOpen)}
             />
           </Stack>
@@ -117,8 +122,12 @@ function Expenses() {
               borderColor="GrayText"
             >
               <TableContainer>
-                <Table variant="simple" border={'1px solid'} borderColor='GrayText'>
-                  <Thead bg="#27272a">
+                <Table
+                  variant="simple"
+                  border={"1px solid"}
+                  borderColor="GrayText"
+                >
+                  <Thead bg="#253669">
                     <Tr>
                       <Th color={"white"}>Name</Th>
                       <Th color={"white"}>Price</Th>
@@ -132,14 +141,26 @@ function Expenses() {
                   <Tbody>
                     {expenseData.map((expense: any) => {
                       return (
-                        <Tr key={expense.id} border='yellow'>
-                          <Td><Text color={'#FFFFFF'}>{expense.name_type}</Text></Td>
-                          <Td><Text color={'#FFFFFF'}>{expense.price}</Text></Td>
-                          <Td><Text color={'#FFFFFF'}>{expense.spendDate}</Text></Td>
-                          <Td><Text color={'#FFFFFF'}>{expense.category}</Text></Td>
-                          <Td><Text color={'#FFFFFF'}>{expense.paidVia}</Text></Td>
-                          <Td><Text color={'#FFFFFF'}>{expense.description}</Text></Td>
+                        <Tr key={expense.id} border="yellow">
                           <Td>
+                            <Text color={"#FFFFFF"}>{expense.name_type}</Text>
+                          </Td>
+                          <Td>
+                            <Text color={"#FFFFFF"}>{expense.price}</Text>
+                          </Td>
+                          <Td>
+                            <Text color={"#FFFFFF"}>{expense.spendDate}</Text>
+                          </Td>
+                          <Td>
+                            <Text color={"#FFFFFF"}>{expense.category}</Text>
+                          </Td>
+                          <Td>
+                            <Text color={"#FFFFFF"}>{expense.paidVia}</Text>
+                          </Td>
+                          <Td>
+                            <Text color={"#FFFFFF"}>{expense.description}</Text>
+                          </Td>
+                          <Td align="center" justifyContent={'center'}>
                             {
                               <IconButton
                                 colorScheme="blue"
@@ -158,14 +179,14 @@ function Expenses() {
               </TableContainer>
             </Stack>
           ) : (
-              <Text
-                fontSize={"2rem"}
-                fontWeight={"bold"}
-                align={"center"}
-                color="white"
-              >
-                No data Found
-              </Text>
+            <Text
+              fontSize={"2rem"}
+              fontWeight={"bold"}
+              align={"center"}
+              color="white"
+            >
+              No data Found
+            </Text>
           )}
         </Stack>
       </Stack>

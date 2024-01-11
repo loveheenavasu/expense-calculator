@@ -83,7 +83,7 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
           style={{
             borderRadius: "24px",
             marginBottom: "0px",
-            background: "black",
+            background: "#0d1325",
             color: "white",
             border: "1px solid gray",
           }}

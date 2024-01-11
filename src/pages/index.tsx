@@ -1,26 +1,31 @@
-import Head from 'next/head'
-import styles from '@/styles/Home.module.css'
-import { Stack ,Text,HStack, Icon, Divider} from '@chakra-ui/react'
-import { useAppSelector } from '@/hooks/dispatchSelectHook'
-import { RootState } from '@/services/redux-store/store'
-import SimpleSidebar from '@/components/sidebar'
-import Navbar from '@/components/navbar'
+import Head from "next/head";
+import styles from "@/styles/Home.module.css";
+import { Stack, Text, HStack, Icon, Divider, Box } from "@chakra-ui/react";
+import { useAppSelector } from "@/hooks/dispatchSelectHook";
+import { RootState } from "@/services/redux-store/store";
+import SimpleSidebar from "@/components/sidebar";
+import Navbar from "@/components/navbar";
 import { GiCash } from "react-icons/gi";
 import { IoCashOutline } from "react-icons/io5";
 import { IoWallet } from "react-icons/io5";
+import OverViewChart from "@/components/overviewchart";
+// import OverViewChart from '@/components/overviewchart'
 export default function Home() {
-  const incomeData = useAppSelector((state: RootState) =>state.expenses.income
-);
-const expenseData = useAppSelector((state: RootState) =>state.expenses.expenses
-);
+  const incomeData = useAppSelector(
+    (state: RootState) => state.expenses.income
+  );
+  const expenseData = useAppSelector(
+    (state: RootState) => state.expenses.expenses
+  );
   const totalIncome = incomeData.reduce(
     (total, income) => total + Number(income.amount),
     0
   );
-const totalExpenses = expenseData.reduce(
-  (total, expense) => total + Number(expense.price),
-  0
-);
+  const totalExpenses = expenseData.reduce(
+    (total, expense) => total + Number(expense.price),
+    0
+  );
+  const totalAvailableBalance = totalIncome - totalExpenses;
   return (
     <>
       <Head>
@@ -30,69 +35,131 @@ const totalExpenses = expenseData.reduce(
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-      <Stack
-        h={"100vh"}
-        w={'100vw'}
-        bg={'black'} color={'white'}
-      >
-        <SimpleSidebar />
-        <Stack
-          w={{ sm: "100vw", base: "100vw", md: "90vw", lg: "90vw" }}
-          ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}
-        >
-          <Navbar title="Overview" />
-          <Divider color={'white'} width={'80vw'} ml={'1rem'}/>
+        <Stack h={"100vh"} bg={"#0d1325"} color={"white"}>
+          <SimpleSidebar />
           <Stack
-            direction={{ base: "column", sm: "column", md: "row", lg: "row" }}
-            wrap={'wrap'}
+            // w={{ sm: "100vw", base: "100vw", md: "90vw", lg: "90vw" }}
+            ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}
           >
-        <Stack m={"1rem"} direction={{ base: "column", sm: "column", md: "row", lg: "row" }}>
-        <Stack
-              border={"1px solid gray"}
-              borderRadius={"8px"}
-              minWidth={"310px"}
-              padding={"8px"}
-            >
-              <HStack justifyContent={'space-between'}>
-              <Text color={'#8A94A6'}>Total Income</Text>
-              <Icon as={IoWallet}/>
-              </HStack>
-              <Text fontWeight={'bold'}  fontSize='1.5rem'>&#8377; {totalIncome}</Text>
-            </Stack>
+            <Navbar title="Overview" />
+            <Divider
+              color={"white"}
+              width={{ base: "70vw", sm: "90vw", md: "70vw", lg: "80vw" }}
+              ml={"1rem"}
+            />
             <Stack
-              minWidth={"310px"}
-              padding={"8px"}
-              border={"1px solid gray"}
-              borderRadius={"8px"}
+              direction={{
+                base: "column",
+                sm: "column",
+                md: "row",
+                lg: "row",
+              }}
+              wrap={"wrap"}
+              bg={"#0d1325"}
             >
-              <HStack justifyContent='space-between'>
-              <Text fontSize={"1rem"} fontWeight={"700"} color={'#8A94A6'}>
-                Total Spent
-              </Text>
-              <Icon as={IoCashOutline}/>
-              </HStack>
-              <Text fontWeight={'bold'}  fontSize='1.5rem'>&#8377; {totalExpenses}</Text>
+              <Stack
+                m={"1rem"}
+                direction={{
+                  base: "column",
+                  sm: "column",
+                  md: "row",
+                  lg: "row",
+                }}
+              >
+                <Stack
+                  border={"1px solid gray"}
+                  borderRadius={"8px"}
+                  width={{ base: "unset", md: "180px", xl: "310px" }}
+                  padding={"8px"}
+                >
+                  <HStack justifyContent={"space-between"}>
+                    <Text color={"#8A94A6"}>Total Income</Text>
+                    <Icon as={IoWallet} />
+                  </HStack>
+                  <Text fontWeight={"bold"} fontSize="1.5rem">
+                    &#8377; {totalIncome}
+                  </Text>
+                </Stack>
+                <Stack
+                  width={{ base: "unset", md: "180px", xl: "310px" }}
+                  padding={"8px"}
+                  border={"1px solid gray"}
+                  borderRadius={"8px"}
+                >
+                  <HStack justifyContent="space-between">
+                    <Text
+                      fontSize={"1rem"}
+                      fontWeight={"700"}
+                      color={"#8A94A6"}
+                    >
+                      Total Spent
+                    </Text>
+                    <Icon as={IoCashOutline} />
+                  </HStack>
+                  <Text fontWeight={"bold"} fontSize="1.5rem">
+                    &#8377; {totalExpenses}
+                  </Text>
+                </Stack>
+                <Stack
+                  width={{ base: "unset", md: "180px", xl: "310px" }}
+                  padding={"8px"}
+                  border={"1px solid gray"}
+                  borderRadius={"8px"}
+                >
+                  <HStack justifyContent={"space-between"}>
+                    <Text
+                      fontSize={"1rem"}
+                      fontWeight={"700"}
+                      color={"#8A94A6"}
+                    >
+                      Available balance
+                    </Text>
+                    <Icon as={GiCash} />
+                  </HStack>
+                  <Text fontWeight={"bold"} fontSize="1.5rem">
+                    &#8377;{" "}
+                    {totalIncome > totalExpenses
+                      ? totalIncome - totalExpenses
+                      : 0}
+                  </Text>
+                </Stack>
+              </Stack>
+              <Stack
+                ml={"1rem"}
+                width={{ base: "92%", md: "90%", lg: "90%", xl: "800px" }}
+                h={{ lg: "420px" }}
+                // maxHeight={"500px"}
+                border={"1px solid gray"}
+                borderRadius={"8px"}
+                alignSelf={"flex-end"}
+                alignItems={"center"}
+                mr={"1rem"}
+                padding={".5rem 1rem .5rem"}
+              >
+                <Text fontSize={"2rem"}>Summary</Text>
+                {totalExpenses || totalIncome > 0 ? (
+                  <Box
+                    w={{ base: "100%", md: "80%", lg: "70%" }}
+                    height={{ lg: "450px" }}
+                    alignItems={"center"}
+                  >
+                    <OverViewChart
+                      incomeData={incomeData}
+                      expenseData={expenseData}
+                    />
+                  </Box>
+                ) : (
+                  <>
+                    <Text color={"white"} fontSize={"1rem"} align={"center"}>
+                      No data found
+                    </Text>
+                  </>
+                )}
+              </Stack>
             </Stack>
-            <Stack
-              minWidth={"310px"}
-              padding={"8px"}
-              border={"1px solid gray"}
-              borderRadius={"8px"}
-            >
-              <HStack justifyContent={'space-between'}>
-              <Text fontSize={"1rem"} fontWeight={"700"} color={'#8A94A6'}>
-                Available balance
-              </Text>
-              <Icon as={GiCash}/>
-              </HStack>
-              <Text fontWeight={'bold'}  fontSize='1.5rem'>&#8377; {totalIncome>totalExpenses?totalIncome-totalExpenses:0}</Text>
-            </Stack>
-        </Stack>
-
           </Stack>
-        </Stack>
         </Stack>
       </main>
     </>
-  )
+  );
 }

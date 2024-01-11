@@ -17,24 +17,26 @@ import {
   Icon,
   Textarea,
   useDisclosure,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
 import { CommonModalProps } from "../types";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import { CustomButton } from "../common/Button";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { addExpense, addIncome } from "@/services/slices/expense-trackerSlice";
 import { RootState } from "@/services/redux-store/store";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
 export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
   const { onClose } = useDisclosure();
   const dispatch = useDispatch();
-  const toast=useToast();
-  const incomeData = useAppSelector((state: RootState) => state.expenses.income);
+  const toast = useToast();
+  const incomeData = useAppSelector(
+    (state: RootState) => state.expenses.income
+  );
   const initialValues = {
     name_type: "",
-    amount:0,
+    amount: 0,
     receivedDate: "",
     category: "",
     description: "",
@@ -46,11 +48,10 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
       .matches(/^\S.*\S$/, "Name cannot contain whitespace or tabs")
       .required("Name is  required"),
     amount: Yup.number()
-    .min(0, "Value cannot be negative")
-    .required("Amount is required"),
+      .min(0, "Value cannot be negative")
+      .required("Amount is required"),
     recievedDate: Yup.string(),
-    category: Yup.string()
-      .required(),
+    category: Yup.string().required(),
     description: Yup.string()
       .matches(/^\S.*\S$/, "Description cannot contain whitespace or tabs")
       .required("Description is required"),
@@ -59,16 +60,16 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
     onClose();
     setIsOpen(false);
   };
-  const handleAddIncome = (values:any) => {
-    const id=Date.now()
-    dispatch(addIncome({...values,id}));
+  const handleAddIncome = (values: any) => {
+    const id = Date.now();
+    dispatch(addIncome({ ...values, id }));
     toast({
-      position:'top-right',
+      position: "top-right",
       description: "Expense added Sucessfully.",
-      status: 'success',
+      status: "success",
       duration: 2000,
       isClosable: true,
-    })
+    });
     handleClose();
   };
   return (
@@ -78,14 +79,14 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
         isOpen={isOpen}
         onClose={handleClose}
       >
-        <ModalOverlay backdropFilter='blur(10px)'/>
+        <ModalOverlay backdropFilter="blur(10px)" />
         <ModalContent
           style={{
             borderRadius: "24px",
             marginBottom: "0px",
-            border:"1px solid gray",
-            background:'black',
-            color:'white'
+            border: "1px solid gray",
+            background: "#0d1325",
+            color: "white",
           }}
         >
           <ModalCloseButton />
@@ -106,15 +107,15 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
               gap={"32px"}
             >
               <Box>
-                  <Formik
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={(values) => {
-                      handleAddIncome(values);
-                    }} 
-                  >
-                    {({ handleChange, values, errors }) => (
-                      <Form>
+                <Formik
+                  initialValues={initialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={(values) => {
+                    handleAddIncome(values);
+                  }}
+                >
+                  {({ handleChange, values, errors }) => (
+                    <Form>
                       <Stack spacing={6}>
                         <InputGroup
                           size="lg"
@@ -127,13 +128,13 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                             placeholder="First Name"
                             type="text"
                             name="name_type"
-                            borderColor={'GrayText'}
+                            borderColor={"GrayText"}
                             onChange={handleChange}
                           />
-                          <Text color={'red'}>{errors.name_type}</Text>
+                          <Text color={"red"}>{errors.name_type}</Text>
                         </InputGroup>
                         <InputGroup size="lg" display={"flex"} gap={"12px"}>
-                          <Box width={'50%'}>
+                          <Box width={"50%"}>
                             <FormLabel>Amount (&#8377;)</FormLabel>
                             <Input
                               pr="4.5rem"
@@ -143,11 +144,11 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                               name="amount"
                               min={0}
                               max={300000}
-                              borderColor={'GrayText'}
+                              borderColor={"GrayText"}
                             />
-                            <Text color={'red'}>{errors.amount}</Text>
+                            <Text color={"red"}>{errors.amount}</Text>
                           </Box>
-                          <Box width={'50%'}>
+                          <Box width={"50%"}>
                             <FormLabel>Received Date</FormLabel>
                             <Input
                               pr="4.5rem"
@@ -155,14 +156,15 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                               type="date"
                               name="receivedDate"
                               colorScheme="white"
-                              gap={'1rem'}
-                              borderColor={'GrayText'}
+                              gap={"1rem"}
+                              borderColor={"GrayText"}
                               css={`
-                        ::-webkit-calendar-picker-indicator {
-                            background: url(https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/calendar-16.png) center/80% no-repeat;
-                            // color: white;
-                        }
-                    `}
+                                ::-webkit-calendar-picker-indicator {
+                                  background: url(https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/calendar-16.png)
+                                    center/80% no-repeat;
+                                  // color: white;
+                                }
+                              `}
                               onChange={handleChange}
                             />
                           </Box>
@@ -175,9 +177,16 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                         >
                           <Box w={"100%"}>
                             <FormLabel>Category</FormLabel>
-                            <Select placeholder="" onChange={handleChange} name="category" borderColor={'GrayText'}>
+                            <Select
+                              placeholder=""
+                              onChange={handleChange}
+                              name="category"
+                              borderColor={"GrayText"}
+                            >
                               <option value="Salary">Salary</option>
-                              <option value="Passive Income">Passive Income</option>
+                              <option value="Passive Income">
+                                Passive Income
+                              </option>
                               <option value="Youtube">Youtube</option>
                             </Select>
                           </Box>
@@ -193,9 +202,9 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                             placeholder="Description for Income"
                             onChange={handleChange}
                             name="description"
-                            borderColor={'GrayText'}
+                            borderColor={"GrayText"}
                           />
-                          <Text color={'red'}>{errors.description}</Text>
+                          <Text color={"red"}>{errors.description}</Text>
                           <Box
                             display={"flex"}
                             gap={"20px"}
@@ -209,9 +218,9 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                           </Box>
                         </InputGroup>
                       </Stack>
-                      </Form>
-                    )}
-                  </Formik>
+                    </Form>
+                  )}
+                </Formik>
               </Box>
               <Box
                 display={"flex"}
