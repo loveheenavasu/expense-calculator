@@ -45,8 +45,7 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
   const validationSchema = Yup.object().shape({
     name_type: Yup.string()
       .required("Name is required")
-      .matches(/^\S.*\S$/, "Name cannot contain whitespace or tabs")
-      .required("Name is  required"),
+      .matches(/^\S.*\S$/, "Name cannot contain whitespace or tabs"),
     amount: Yup.number()
       .min(0, "Value cannot be negative")
       .required("Amount is required"),
@@ -62,10 +61,11 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
   };
   const handleAddIncome = (values: any) => {
     const id = Date.now();
+    console.log('values',values)
     dispatch(addIncome({ ...values, id }));
     toast({
       position: "top-right",
-      description: "Expense added Sucessfully.",
+      description: "Income added Sucessfully.",
       status: "success",
       duration: 2000,
       isClosable: true,
@@ -154,6 +154,7 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                               pr="4.5rem"
                               placeholder="10/04/20"
                               type="date"
+                              max={new Date().toISOString().split("T")[0]}
                               name="receivedDate"
                               colorScheme="white"
                               gap={"1rem"}
@@ -222,13 +223,6 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                   )}
                 </Formik>
               </Box>
-              <Box
-                display={"flex"}
-                flexDirection={"column"}
-                justifyContent={"center"}
-                alignItems={"center"}
-                gap={"20px"}
-              ></Box>
             </Box>
           </ModalBody>
           <ModalFooter />

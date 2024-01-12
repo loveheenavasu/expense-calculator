@@ -156,9 +156,10 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                             <FormLabel>Spend Date</FormLabel>
                             <Input
                               pr="4.5rem"
-                              placeholder="10/04/20"
+                              placeholder="10/04/2024"
                               type="date"
                               name="spendDate"
+                              max={new Date().toISOString().split('T')[0]}
                               borderColor={"GrayText"}
                               css={`
                                 ::-webkit-calendar-picker-indicator {
@@ -237,13 +238,6 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                   )}
                 </Formik>
               </Box>
-              <Box
-                display={"flex"}
-                flexDirection={"column"}
-                justifyContent={"center"}
-                alignItems={"center"}
-                gap={"20px"}
-              ></Box>
             </Box>
           </ModalBody>
           <ModalFooter />

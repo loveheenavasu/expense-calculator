@@ -23,6 +23,7 @@ import React, { ReactElement, useState } from "react";
 import { VscAdd } from "react-icons/vsc";
 import { MdDelete } from "react-icons/md";
 import { useRouter } from "next/router";
+import { convertYMDtoDMY } from "@/utils/dateFormatter";
 
 function Expenses() {
   const [expensesModalOpen, setExpensesModal] = useState(false);
@@ -60,9 +61,7 @@ function Expenses() {
         )}
 
         <Stack
-          // w={{ sm: "100vw", base: "100vw", md: "90vw", lg: "90vw" }}
           ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}
-          // h={'100vh'}
         >
           <Text
             ml={"1rem"}
@@ -149,7 +148,7 @@ function Expenses() {
                             <Text color={"#FFFFFF"}>{expense.price}</Text>
                           </Td>
                           <Td>
-                            <Text color={"#FFFFFF"}>{expense.spendDate}</Text>
+                            <Text color={"#FFFFFF"}>{convertYMDtoDMY(expense.spendDate)}</Text>
                           </Td>
                           <Td>
                             <Text color={"#FFFFFF"}>{expense.category}</Text>

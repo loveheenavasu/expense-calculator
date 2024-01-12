@@ -22,6 +22,7 @@ import React, { ReactElement, useState } from "react";
 import { VscAdd } from "react-icons/vsc";
 import { MdDelete } from "react-icons/md";
 import { useRouter } from "next/router";
+import { convertYMDtoDMY } from "@/utils/dateFormatter";
 
 function Income() {
   const [isIncomeModalOpen, setIncomeModal] = useState(false);
@@ -142,7 +143,7 @@ function Income() {
                               <span>{}</span>
                             )}
                           </Td>
-                          <Td>{income.receivedDate}</Td>
+                          <Td>{convertYMDtoDMY(income.receivedDate)}</Td>
                           <Td>{income.category}</Td>
                           <Td>{income.description}</Td>
                           <Td>

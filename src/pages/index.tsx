@@ -8,8 +8,8 @@ import Navbar from "@/components/navbar";
 import { GiCash } from "react-icons/gi";
 import { IoCashOutline } from "react-icons/io5";
 import { IoWallet } from "react-icons/io5";
-import OverViewChart from "@/components/overviewchart";
-// import OverViewChart from '@/components/overviewchart'
+import OverViewChart from "@/components/overviewchart/barchart";
+import { DoughnutChart } from "@/components/overviewchart/doughnutchart";
 export default function Home() {
   const incomeData = useAppSelector(
     (state: RootState) => state.expenses.income
@@ -37,14 +37,11 @@ export default function Home() {
       <main>
         <Stack h={"100vh"} bg={"#0d1325"} color={"white"}>
           <SimpleSidebar />
-          <Stack
-            // w={{ sm: "100vw", base: "100vw", md: "90vw", lg: "90vw" }}
-            ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}
-          >
+          <Stack ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}>
             <Navbar title="Overview" />
             <Divider
               color={"white"}
-              width={{ base: "70vw", sm: "90vw", md: "70vw", lg: "80vw" }}
+              width={{ base: "90vw", sm: "90vw", md: "70vw", lg: "80vw" }}
               ml={"1rem"}
             />
             <Stack
@@ -125,36 +122,74 @@ export default function Home() {
                 </Stack>
               </Stack>
               <Stack
-                ml={"1rem"}
-                width={{ base: "92%", md: "90%", lg: "90%", xl: "800px" }}
-                h={{ lg: "420px" }}
-                // maxHeight={"500px"}
-                border={"1px solid gray"}
-                borderRadius={"8px"}
-                alignSelf={"flex-end"}
-                alignItems={"center"}
-                mr={"1rem"}
-                padding={".5rem 1rem .5rem"}
+                width={"95%"}
+                direction={{ base: "column", md: "column", lg: "row" }}
+                m={"1rem"}
               >
-                <Text fontSize={"2rem"}>Summary</Text>
-                {totalExpenses || totalIncome > 0 ? (
-                  <Box
-                    w={{ base: "100%", md: "80%", lg: "70%" }}
-                    height={{ lg: "450px" }}
-                    alignItems={"center"}
-                  >
-                    <OverViewChart
-                      incomeData={incomeData}
-                      expenseData={expenseData}
-                    />
-                  </Box>
-                ) : (
-                  <>
-                    <Text color={"white"} fontSize={"1rem"} align={"center"}>
-                      No data found
-                    </Text>
-                  </>
-                )}
+                <Stack
+                  // ml={"1rem"}
+                  width={{ base: "98%", md: "none", lg: "50%", xl: "800px" }}
+                  h={{ lg: "420px" }}
+                  // maxHeight={"500px"}
+                  border={"1px solid gray"}
+                  borderRadius={"8px"}
+                  alignSelf={"flex-end"}
+                  alignItems={"center"}
+                  mr={"1rem"}
+                  padding={".5rem 1rem .5rem"}
+                >
+                  <Text fontSize={"2rem"}>Summary</Text>
+                  {totalExpenses || totalIncome > 0 ? (
+                    <Box
+                      w={{ base: "none%", md: "80%", lg: "70%" }}
+                      height={{ lg: "420px" }}
+                      alignItems={"center"}
+                    >
+                      <OverViewChart
+                        incomeData={incomeData}
+                        expenseData={expenseData}
+                      />
+                    </Box>
+                  ) : (
+                    <>
+                      <Text color={"white"} fontSize={"1rem"} align={"center"}>
+                        No data found
+                      </Text>
+                    </>
+                  )}
+                </Stack>
+                <Stack
+                  // ml={"1rem"}
+                  width={{ base: "98%", md: "none", lg: "50%", xl: "800px" }}
+                  h={{ lg: "420px" }}
+                  // maxHeight={"500px"}
+                  border={"1px solid gray"}
+                  borderRadius={"8px"}
+                  alignSelf={"flex-end"}
+                  alignItems={"center"}
+                  mr={"1rem"}
+                  padding={".5rem 1rem .5rem"}
+                >
+                  <Text fontSize={"2rem"}>Summary</Text>
+                  {totalExpenses || totalIncome > 0 ? (
+                    <Box
+                      w={{ base: "100%", md: "80%", lg: "70%" }}
+                      height={{ lg: "350px" }}
+                      alignItems={"center"}
+                    >
+                      <DoughnutChart
+                        totalIncome={totalIncome}
+                        totalExpenses={totalExpenses}
+                      />
+                    </Box>
+                  ) : (
+                    <>
+                      <Text color={"white"} fontSize={"1rem"} align={"center"}>
+                        No data found
+                      </Text>
+                    </>
+                  )}
+                </Stack>
               </Stack>
             </Stack>
           </Stack>
