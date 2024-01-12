@@ -159,6 +159,7 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                               colorScheme="white"
                               gap={"1rem"}
                               borderColor={"GrayText"}
+                              required
                               css={`
                                 ::-webkit-calendar-picker-indicator {
                                   background: url(https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/calendar-16.png)

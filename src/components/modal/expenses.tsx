@@ -161,6 +161,7 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                               name="spendDate"
                               max={new Date().toISOString().split('T')[0]}
                               borderColor={"GrayText"}
+                                required
                               css={`
                                 ::-webkit-calendar-picker-indicator {
                                   background: url(https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/calendar-16.png)
