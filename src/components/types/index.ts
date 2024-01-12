@@ -11,7 +11,7 @@ export interface ExpenseFormData {
     category: string;
     paidVia: string;
     description: string;
-    id:string
+    id:number
   }
 export interface IncomeFormData{
     name_type:string,

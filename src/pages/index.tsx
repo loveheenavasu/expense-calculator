@@ -35,13 +35,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Stack h={"100vh"} bg={"#0d1325"} color={"white"}>
+        <Stack h={"100vh"} bg={"#0d1325"} color={"white"} w={'100vw'}>
           <SimpleSidebar />
           <Stack ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}>
             <Navbar title="Overview" />
             <Divider
               color={"white"}
-              width={{ base: "90vw", sm: "90vw", md: "70vw", lg: "80vw" }}
+              width={{ base: "95%", sm: "90vw", md: "70vw", lg: "80vw" }}
               ml={"1rem"}
             />
             <Stack
@@ -56,6 +56,7 @@ export default function Home() {
             >
               <Stack
                 m={"1rem"}
+                width={"95%"}
                 direction={{
                   base: "column",
                   sm: "column",
@@ -127,10 +128,8 @@ export default function Home() {
                 m={"1rem"}
               >
                 <Stack
-                  // ml={"1rem"}
                   width={{ base: "98%", md: "none", lg: "50%", xl: "800px" }}
                   h={{ lg: "420px" }}
-                  // maxHeight={"500px"}
                   border={"1px solid gray"}
                   borderRadius={"8px"}
                   alignSelf={"flex-end"}
@@ -159,10 +158,8 @@ export default function Home() {
                   )}
                 </Stack>
                 <Stack
-                  // ml={"1rem"}
                   width={{ base: "98%", md: "none", lg: "50%", xl: "800px" }}
                   h={{ lg: "420px" }}
-                  // maxHeight={"500px"}
                   border={"1px solid gray"}
                   borderRadius={"8px"}
                   alignSelf={"flex-end"}

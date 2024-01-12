@@ -188,7 +188,7 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                               name="category"
                               borderColor={"GrayText"}
                             >
-                              <option value="Food">Food</option>
+                              <option value="Food" selected>Food</option>
                               <option value="Grocery">Grocery</option>
                               <option value="Clothes">Clothes</option>
                             </Select>
@@ -201,7 +201,7 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                               name="paidVia"
                               borderColor={"GrayText"}
                             >
-                              <option value="UPI">UPI</option>
+                              <option value="UPI" selected>UPI</option>
                               <option value="Net Banking">Net Banking</option>
                               <option value="E-Wallet">E-Wallet</option>
                             </Select>

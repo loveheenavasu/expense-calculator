@@ -185,7 +185,7 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                               name="category"
                               borderColor={"GrayText"}
                             >
-                              <option value="Salary">Salary</option>
+                              <option value="Salary" selected>Salary</option>
                               <option value="Passive Income">
                                 Passive Income
                               </option>

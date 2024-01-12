@@ -23,6 +23,7 @@ import { VscAdd } from "react-icons/vsc";
 import { MdDelete } from "react-icons/md";
 import { useRouter } from "next/router";
 import { convertYMDtoDMY } from "@/utils/dateFormatter";
+import { IncomeFormData } from "@/components/types";
 
 function Income() {
   const [isIncomeModalOpen, setIncomeModal] = useState(false);
@@ -66,7 +67,7 @@ function Income() {
           </Text>
           <Divider
             color={"white"}
-            width={{ base: "70vw", sm: "90vw", md: "70vw", lg: "80vw" }}
+            width={{ base: "90vw", sm: "90vw", md: "70vw", lg: "80vw" }}
             ml={"1rem"}
           />
           <Stack
@@ -111,7 +112,8 @@ function Income() {
           </Stack>
           {incomeData.length > 0 ? (
             <Stack m={"1rem"} border="1px solid gray" borderRadius=".25rem">
-              <TableContainer>
+              <TableContainer style={{overflow:'auto'
+              ,maxHeight:'500px'}}>
                 <Table
                   variant="simple"
                   border={"1px solid"}
@@ -128,7 +130,7 @@ function Income() {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {incomeData.map((income: any) => {
+                    {incomeData.map((income: IncomeFormData) => {
                       return (
                         <Tr
                           key={income.id}

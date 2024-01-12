@@ -24,6 +24,7 @@ import { VscAdd } from "react-icons/vsc";
 import { MdDelete } from "react-icons/md";
 import { useRouter } from "next/router";
 import { convertYMDtoDMY } from "@/utils/dateFormatter";
+import { ExpenseFormData } from "@/components/types";
 
 function Expenses() {
   const [expensesModalOpen, setExpensesModal] = useState(false);
@@ -34,7 +35,7 @@ function Expenses() {
   const expenseData = useAppSelector(
     (state: RootState) => state.expenses.expenses
   );
-  const deleteHandler = (id: string) => {
+  const deleteHandler = (id:number) => {
     dispatch(deleteExpenseById(id));
     toast({
       position: "top-right",
@@ -120,7 +121,8 @@ function Expenses() {
               color="white"
               borderColor="GrayText"
             >
-              <TableContainer>
+              <TableContainer style={{overflow:'auto'
+              ,maxHeight:'500px'}}>
                 <Table
                   variant="simple"
                   border={"1px solid"}
@@ -137,8 +139,8 @@ function Expenses() {
                       <Th color={"white"}>Actions</Th>
                     </Tr>
                   </Thead>
-                  <Tbody>
-                    {expenseData.map((expense: any) => {
+                  <Tbody style={{maxHeight:'500px', overflow:'auto'}}>
+                    {expenseData.map((expense: ExpenseFormData) => {
                       return (
                         <Tr key={expense.id} border="yellow">
                           <Td>
