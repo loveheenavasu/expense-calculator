@@ -47,7 +47,7 @@ const LinkItems: Array<LinkItemProps> = [
 export function getRouteText(pathname: string) {
   switch (pathname) {
     case "/":
-      return "Expenses";
+      return "";
     case "/expenses":
       return "Expenses";
     case "/income":
@@ -90,7 +90,6 @@ interface SidebarProps extends BoxProps {
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
     <Stack
-      // bg={useColorModeValue('white', 'gray.900')}
       bg={"#0d1325"}
       borderRight="1px"
       borderColor={"GrayText"}
@@ -100,9 +99,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {...rest}
     >
       <HStack alignItems="center" ml="1rem" justifyContent="flex-end" dir="row">
-        {/* <Text fontSize="md" fontFamily="monospace" fontWeight="bold" >
-        Expenses 
-        </Text> */}
         <CloseButton
           display={{ base: "flex", md: "none" }}
           onClick={onClose}
@@ -125,12 +121,12 @@ interface NavItemProps extends FlexProps {
   href: string;
 }
 const NavItem = ({ icon, children, href }: NavItemProps) => {
+  const route = useRouter();
+  const routePath = getRouteText(route.pathname);
   return (
     typeof href === "string" && (
       <Link href={href}>
         <Stack
-          // as={'a'}
-          // href={href}
           style={{ textDecoration: "none", marginTop: "1rem" }}
           _focus={{ boxShadow: "none" }}
           _active={{ bg: "gray.400" }}
@@ -144,6 +140,11 @@ const NavItem = ({ icon, children, href }: NavItemProps) => {
             color: "white",
           }}
           justify-content={"center"}
+          background={
+            children === routePath || children === "Overview" && routePath===""
+              ? "#334455"
+              : "none"
+          }
         >
           {icon && (
             <>
@@ -179,8 +180,6 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       px={{ base: 4, md: 24 }}
       height="20"
       alignItems="center"
-      // background={'white'}
-      // borderBottomWidth="1px"
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent="flex-start"
       {...rest}
@@ -190,7 +189,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         color={"white"}
         onClick={onOpen}
         aria-label="open menu"
-        _hover={{bg:'gray',color:'white'}}
+        _hover={{ bg: "gray", color: "white" }}
         icon={<FiMenu />}
       />
 

@@ -1,49 +1,24 @@
-import IncomeModal from "@/components/modal/income";
-import Navbar from "@/components/navbar";
-import SimpleSidebar, { getRouteText } from "@/components/sidebar";
+import IncomeModal from "@/components/modal/Income";
+import SimpleSidebar, { getRouteText } from "@/components/SideBar";
 import { useAppDispatch, useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
-import { deleteIncomeById } from "@/services/slices/expense-trackerSlice";
-import {
-  Divider,
-  IconButton,
-  Stack,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  useToast,
-} from "@chakra-ui/react";
+import { Divider, IconButton, Stack, Text, useToast } from "@chakra-ui/react";
 import React, { ReactElement, useState } from "react";
 import { VscAdd } from "react-icons/vsc";
-import { MdDelete } from "react-icons/md";
 import { useRouter } from "next/router";
-import { convertYMDtoDMY } from "@/utils/dateFormatter";
-import { IncomeFormData } from "@/components/types";
+import { IncomeTable } from "@/components/Table/Income-Table";
+import { NoDataFound } from "@/components/common/No-Data-Found";
+import { IncomeTotalHeader } from "@/components/Income-Total-Header";
 
 function Income() {
   const [isIncomeModalOpen, setIncomeModal] = useState(false);
   const dispatch = useAppDispatch();
   const route = useRouter();
-  const toast = useToast();
   const routePath = getRouteText(route.pathname);
+  const toast = useToast();
   const incomeData = useAppSelector(
     (state: RootState) => state.expenses.income
   );
-  const deleteHandler = (id: string) => {
-    dispatch(deleteIncomeById(id));
-    toast({
-      position: "top-right",
-      description: "Income deleted Sucessfully.",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-  };
   const totalIncome = incomeData.reduce(
     (total, income) => total + Number(income.amount),
     0
@@ -70,108 +45,15 @@ function Income() {
             width={{ base: "90vw", sm: "90vw", md: "70vw", lg: "80vw" }}
             ml={"1rem"}
           />
-          <Stack
-            m={"1rem"}
-            direction={{ base: "column", sm: "column", md: "row", lg: "row" }}
-          >
-            <Stack
-              width={{ base: "unset", md: "310px", lg: "310px" }}
-              padding={"8px"}
-              border={"1px solid gray"}
-              borderRadius={"8px"}
-            >
-              <Text fontSize={"1rem"} color={"#8A94A6"}>
-                Total Income
-              </Text>
-              <Text fontWeight={"bold"} fontSize="1.5rem">
-                {incomeData.length}
-              </Text>
-            </Stack>
-            <Stack
-              border={"1px solid gray"}
-              borderRadius={"8px"}
-              width={{ base: "unset", md: "310px", lg: "310px" }}
-              padding={"8px"}
-            >
-              <Text fontSize={"1rem"} color={"#8A94A6"}>
-                {" "}
-                Total Amount
-              </Text>
-              <Text fontWeight={"bold"} fontSize="1.5rem">
-                &#8377; {totalIncome}
-              </Text>
-            </Stack>
-            <IconButton
-              colorScheme="blue"
-              aria-label="Search database"
-              icon={<VscAdd />}
-              size="md"
-              w={{sm:'200px',md:'unset',lg:'unset'}}
-              onClick={() => setIncomeModal(!isIncomeModalOpen)}
-            />
-          </Stack>
+          <IncomeTotalHeader
+            incomeModalOpen={isIncomeModalOpen}
+            setIncomeModal={setIncomeModal}
+            incomeData={incomeData}
+          />
           {incomeData.length > 0 ? (
-            <Stack m={"1rem"} border="1px solid gray" borderRadius=".25rem">
-              <TableContainer style={{overflow:'auto'
-              ,maxHeight:'500px'}}>
-                <Table
-                  variant="simple"
-                  border={"1px solid"}
-                  borderColor="GrayText"
-                >
-                  <Thead bg="#253669" color="#FFFFFF">
-                    <Tr>
-                      <Th color="#FFFFFF">Name</Th>
-                      <Th color="#FFFFFF">Amount</Th>
-                      <Th color="#FFFFFF">Received Date</Th>
-                      <Th color="#FFFFFF">Category</Th>
-                      <Th color="#FFFFFF">Description</Th>
-                      <Th color="#FFFFFF">Actions</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    {incomeData.map((income: IncomeFormData) => {
-                      return (
-                        <Tr
-                          key={income.id}
-                          borderColor="GrayText"
-                          borderBottom={"1px solid green"}
-                        >
-                          <Td>{income.name_type}</Td>
-                          <Td>
-                            {income.amount && income.amount > 0 ? (
-                              <span>{income.amount}</span>
-                            ) : (
-                              <span>{}</span>
-                            )}
-                          </Td>
-                          <Td>{convertYMDtoDMY(income.receivedDate)}</Td>
-                          <Td>{income.category}</Td>
-                          <Td>{income.description}</Td>
-                          <Td>
-                            {
-                              <IconButton
-                                colorScheme="blue"
-                                aria-label="remove button"
-                                icon={<MdDelete />}
-                                size="sm"
-                                onClick={() => deleteHandler(income.id)}
-                              />
-                            }
-                          </Td>
-                        </Tr>
-                      );
-                    })}
-                  </Tbody>
-                </Table>
-              </TableContainer>
-            </Stack>
+            <IncomeTable incomeData={incomeData} />
           ) : (
-            <>
-              <Text fontSize={"2rem"} fontWeight={"bold"} align={"center"}>
-                No data Found
-              </Text>
-            </>
+            <NoDataFound />
           )}
         </Stack>
       </Stack>

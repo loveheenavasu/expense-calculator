@@ -19,7 +19,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { CommonModalProps } from "../types";
+import { CommonModalProps } from "../../types";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import { CustomButton } from "../common/Button";
@@ -61,7 +61,7 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
   };
   const handleAddIncome = (values: any) => {
     const id = Date.now();
-    console.log('values',values)
+    console.log("values", values);
     dispatch(addIncome({ ...values, id }));
     toast({
       position: "top-right",
@@ -185,7 +185,9 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                               name="category"
                               borderColor={"GrayText"}
                             >
-                              <option value="Salary" selected>Salary</option>
+                              <option value="Salary" selected>
+                                Salary
+                              </option>
                               <option value="Passive Income">
                                 Passive Income
                               </option>

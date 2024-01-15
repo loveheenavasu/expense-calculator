@@ -1,55 +1,21 @@
-import ExpensesModal from "@/components/modal/expenses";
-import Navbar from "@/components/navbar";
-import SimpleSidebar, { getRouteText } from "@/components/sidebar";
-import { useAppDispatch, useAppSelector } from "@/hooks/dispatchSelectHook";
+import ExpensesModal from "@/components/modal/Expenses";
+import SimpleSidebar, { getRouteText } from "@/components/SideBar";
+import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
-import { deleteExpenseById } from "@/services/slices/expense-trackerSlice";
-import {
-  Divider,
-  HStack,
-  IconButton,
-  Stack,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  useToast,
-} from "@chakra-ui/react";
-import React, { ReactElement, useState } from "react";
-import { VscAdd } from "react-icons/vsc";
-import { MdDelete } from "react-icons/md";
+import { Divider, Stack, Text } from "@chakra-ui/react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { convertYMDtoDMY } from "@/utils/dateFormatter";
-import { ExpenseFormData } from "@/components/types";
+import { NoDataFound } from "@/components/common/No-Data-Found";
+import { ExpenseTable } from "@/components/Table/Expenses-Table";
+import { ExpenseTotalHeader } from "@/components/Expense-Total-Header";
 
 function Expenses() {
   const [expensesModalOpen, setExpensesModal] = useState(false);
-  const dispatch = useAppDispatch();
   const route = useRouter();
-  const toast = useToast();
   const routePath = getRouteText(route.pathname);
   const expenseData = useAppSelector(
     (state: RootState) => state.expenses.expenses
   );
-  const deleteHandler = (id:number) => {
-    dispatch(deleteExpenseById(id));
-    toast({
-      position: "top-right",
-      description: "Expense deleted Sucessfully.",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-  };
-  const totalExpenses = expenseData.reduce(
-    (total, expense) => total + Number(expense.price),
-    0
-  );
-
   return (
     <>
       <Stack h={"100vh"} w={"100vw"} bg={"#0d1325"}>
@@ -61,9 +27,7 @@ function Expenses() {
           />
         )}
 
-        <Stack
-          ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}
-        >
+        <Stack ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}>
           <Text
             ml={"1rem"}
             fontWeight={"600"}
@@ -78,116 +42,15 @@ function Expenses() {
             width={{ base: "90vw", sm: "90vw", md: "70vw", lg: "80vw" }}
             ml={"1rem"}
           />
-          <Stack
-            m={"1rem"}
-            direction={{ base: "column", sm: "column", md: "row", lg: "row" }}
-          >
-            <Stack
-              border={"1px solid gray"}
-              borderRadius={"8px"}
-              width={{ base: "unset", md: "310px", lg: "310px" }}
-              padding={"8px"}
-            >
-              <Text color={"#8A94A6"}>Total expenses</Text>
-              <Text fontWeight={"bold"} color={"white"} fontSize="1.5rem">
-                {expenseData.length}
-              </Text>
-            </Stack>
-            <Stack
-              border={"1px solid gray"}
-              borderRadius={"8px"}
-              width={{ base: "unset", md: "310px", lg: "310px" }}
-              padding={"8px"}
-            >
-              <Text color={"#8A94A6"}> Total Amount</Text>
-              <Text fontWeight={"bold"} color={"white"} fontSize="1.5rem">
-                &#8377; {totalExpenses}
-              </Text>
-            </Stack>
-            <IconButton
-              colorScheme="blue"
-              aria-label="Search database"
-              icon={<VscAdd />}
-              size={"md"}
-              w={{sm:'200px',md:'unset',lg:'unset'}}
-              onClick={() => setExpensesModal(!expensesModalOpen)}
-            />
-          </Stack>
+          <ExpenseTotalHeader
+            expenseModalOpen={expensesModalOpen}
+            setExpenseModal={setExpensesModal}
+            expenseData={expenseData}
+          />
           {expenseData.length > 0 ? (
-            <Stack
-              m={"1rem"}
-              border="1px solid"
-              borderRadius=".25rem"
-              color="white"
-              borderColor="GrayText"
-            >
-              <TableContainer style={{overflow:'auto'
-              ,maxHeight:'500px'}}>
-                <Table
-                  variant="simple"
-                  border={"1px solid"}
-                  borderColor="GrayText"
-                >
-                  <Thead bg="#253669">
-                    <Tr>
-                      <Th color={"white"}>Name</Th>
-                      <Th color={"white"}>Price</Th>
-                      <Th color={"white"}>Spend Date</Th>
-                      <Th color={"white"}>Category</Th>
-                      <Th color={"white"}>Paid via</Th>
-                      <Th color={"white"}>Description</Th>
-                      <Th color={"white"}>Actions</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody style={{maxHeight:'500px', overflow:'auto'}}>
-                    {expenseData.map((expense: ExpenseFormData) => {
-                      return (
-                        <Tr key={expense.id} border="yellow">
-                          <Td>
-                            <Text color={"#FFFFFF"}>{expense.name_type}</Text>
-                          </Td>
-                          <Td>
-                            <Text color={"#FFFFFF"}>{expense.price}</Text>
-                          </Td>
-                          <Td>
-                            <Text color={"#FFFFFF"}>{convertYMDtoDMY(expense.spendDate)}</Text>
-                          </Td>
-                          <Td>
-                            <Text color={"#FFFFFF"}>{expense.category}</Text>
-                          </Td>
-                          <Td>
-                            <Text color={"#FFFFFF"}>{expense.paidVia}</Text>
-                          </Td>
-                          <Td>
-                            <Text color={"#FFFFFF"}>{expense.description}</Text>
-                          </Td>
-                          <Td align="center" justifyContent={'center'}>
-                            {
-                              <IconButton
-                                colorScheme="blue"
-                                aria-label="Search database"
-                                icon={<MdDelete />}
-                                size={"sm"}
-                                onClick={() => deleteHandler(expense.id)}
-                              />
-                            }
-                          </Td>
-                        </Tr>
-                      );
-                    })}
-                  </Tbody>
-                </Table>
-              </TableContainer>
-            </Stack>
+            <ExpenseTable expenseData={expenseData} />
           ) : (
-            <Text
-              fontSize={"2rem"}
-              fontWeight={"bold"}
-              align={"center"}
-              color="white"
-            >
-              No data Found
-            </Text>
+            <NoDataFound />
           )}
         </Stack>
       </Stack>

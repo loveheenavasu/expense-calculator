@@ -19,7 +19,7 @@ import {
   css,
 } from "@chakra-ui/react";
 import { Button, useDisclosure, useToast } from "@chakra-ui/react";
-import { CommonModalProps } from "../types";
+import { CommonModalProps } from "../../types";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import { CustomButton } from "../common/Button";
@@ -159,9 +159,9 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                               placeholder="10/04/2024"
                               type="date"
                               name="spendDate"
-                              max={new Date().toISOString().split('T')[0]}
+                              max={new Date().toISOString().split("T")[0]}
                               borderColor={"GrayText"}
-                                required
+                              required
                               css={`
                                 ::-webkit-calendar-picker-indicator {
                                   background: url(https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/calendar-16.png)
@@ -188,7 +188,9 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                               name="category"
                               borderColor={"GrayText"}
                             >
-                              <option value="Food" selected>Food</option>
+                              <option value="Food" selected>
+                                Food
+                              </option>
                               <option value="Grocery">Grocery</option>
                               <option value="Clothes">Clothes</option>
                             </Select>
@@ -201,7 +203,9 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                               name="paidVia"
                               borderColor={"GrayText"}
                             >
-                              <option value="UPI" selected>UPI</option>
+                              <option value="UPI" selected>
+                                UPI
+                              </option>
                               <option value="Net Banking">Net Banking</option>
                               <option value="E-Wallet">E-Wallet</option>
                             </Select>
@@ -229,7 +233,11 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                             width={"100%"}
                             justifyContent={"center"}
                           >
-                            <CustomButton type="submit" fontSize={"1rem"}>
+                            <CustomButton
+                              type="submit"
+                              fontSize={"1rem"}
+                              bg="white"
+                            >
                               Add
                             </CustomButton>
                           </Box>
