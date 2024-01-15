@@ -216,7 +216,7 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                             width={"100%"}
                             justifyContent={"center"}
                           >
-                            <CustomButton type="submit" fontSize={"1rem"}>
+                            <CustomButton type="submit" fontSize={"1rem"} bg="white">
                               Add
                             </CustomButton>
                           </Box>

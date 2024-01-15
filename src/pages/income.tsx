@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
 import { Divider, IconButton, Stack, Text, useToast } from "@chakra-ui/react";
 import React, { ReactElement, useState } from "react";
-import { VscAdd } from "react-icons/vsc";
 import { useRouter } from "next/router";
 import { IncomeTable } from "@/components/Table/Income-Table";
 import { NoDataFound } from "@/components/common/No-Data-Found";
@@ -42,8 +41,8 @@ function Income() {
           </Text>
           <Divider
             color={"white"}
-            width={{ base: "90vw", sm: "90vw", md: "70vw", lg: "80vw" }}
-            ml={"1rem"}
+            width={{ base: "90vw", sm: "90vw", md: "70vw", lg: "98%" }}
+            ml={".5rem"}
           />
           <IncomeTotalHeader
             incomeModalOpen={isIncomeModalOpen}

@@ -20,13 +20,6 @@ function Expenses() {
     <>
       <Stack h={"100vh"} w={"100vw"} bg={"#0d1325"}>
         <SimpleSidebar />
-        {expensesModalOpen && (
-          <ExpensesModal
-            isOpen={expensesModalOpen}
-            setIsOpen={setExpensesModal}
-          />
-        )}
-
         <Stack ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}>
           <Text
             ml={"1rem"}
@@ -39,9 +32,15 @@ function Expenses() {
           </Text>
           <Divider
             color={"white"}
-            width={{ base: "90vw", sm: "90vw", md: "70vw", lg: "80vw" }}
-            ml={"1rem"}
+            width={{ base: "90vw", sm: "90vw", md: "70vw", lg: "98%" }}
+            ml={".5rem"}
           />
+          {expensesModalOpen && (
+          <ExpensesModal
+            isOpen={expensesModalOpen}
+            setIsOpen={setExpensesModal}
+          />
+        )}
           <ExpenseTotalHeader
             expenseModalOpen={expensesModalOpen}
             setExpenseModal={setExpensesModal}

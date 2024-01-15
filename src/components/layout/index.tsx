@@ -1,4 +1,4 @@
-import { Box, HStack } from "@chakra-ui/react";
+import { Box, HStack, Stack } from "@chakra-ui/react";
 import React, { ReactElement, memo } from "react";
 import SimpleSidebar from "../SideBar";
 
@@ -6,26 +6,15 @@ interface props {
   children: ReactElement;
   skipAuthCheck?: boolean;
 }
-const Layout = ({ children, skipAuthCheck = false }: props) => {
+const MainLayout = ({ children, skipAuthCheck = false }: props) => {
   return (
-    //   <Navbar />
-    <HStack
-      justifyContent={"center"}
-      backgroundColor={"white"}
-      alignItems={"unset"}
-      height={{
-        base: `calc(100vh - 150px)`,
-        sm: `calc(100vh - 150px)`,
-        lg: `calc(100vh - 115px)`,
-      }}
-      width={"100%"}
-    >
-      <Box display={{ base: "none", sm: "none", md: "none", lg: "block" }}>
-        <SimpleSidebar />
-      </Box>
-      <Box minWidth={{ base: "unset", sm: "unset", lg: 760 }}>{children}</Box>
-    </HStack>
+    <Stack h={"100vh"} w={"100vw"} bg={"#0d1325"}>
+      <SimpleSidebar/>
+        {/* <Stack ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}> */}
+          {children}
+          {/* </Stack> */}
+        </Stack>
   );
 };
 
-export default Layout;
+export default MainLayout;

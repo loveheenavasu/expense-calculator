@@ -2,6 +2,7 @@ import { Stack, IconButton, Text } from "@chakra-ui/react";
 import React from "react";
 import { VscAdd } from "react-icons/vsc";
 import { IncomeProps } from "../../types/Income";
+import { CustomButton } from "../common/Button";
 export const IncomeTotalHeader = ({
   incomeModalOpen,
   setIncomeModal,
@@ -15,43 +16,51 @@ export const IncomeTotalHeader = ({
   return (
     <Stack
       m={"1rem"}
-      direction={{ base: "column", sm: "column", md: "row", lg: "row" }}
+      direction={{ base: "column", sm: "column", md: "column", lg: "row" }}
+      justifyContent={"space-between"}
     >
       <Stack
-        width={{ base: "unset", md: "310px", lg: "310px" }}
-        padding={"8px"}
-        border={"1px solid gray"}
-        borderRadius={"8px"}
+        direction={{ base: "column", sm: "column", md: "row", lg: "row" }}
       >
-        <Text fontSize={"1rem"} color={"#8A94A6"}>
-          Total Income
-        </Text>
-        <Text fontWeight={"bold"} fontSize="1.5rem">
-          {incomeData.length}
-        </Text>
+        <Stack
+          width={{ base: "unset", md: "310px", lg: "310px" }}
+          padding={"8px"}
+          border={"1px solid gray"}
+          borderRadius={"8px"}
+        >
+          <Text fontSize={"1rem"} color={"#8A94A6"}>
+            Total Income
+          </Text>
+          <Text fontWeight={"bold"} fontSize="1.5rem">
+            {incomeData.length}
+          </Text>
+        </Stack>
+        <Stack
+          border={"1px solid gray"}
+          borderRadius={"8px"}
+          width={{ base: "unset", md: "310px", lg: "310px" }}
+          padding={"8px"}
+        >
+          <Text fontSize={"1rem"} color={"#8A94A6"}>
+            {" "}
+            Total Amount
+          </Text>
+          <Text fontWeight={"bold"} fontSize="1.5rem">
+            &#8377; {totalIncome}
+          </Text>
+        </Stack>
       </Stack>
-      <Stack
-        border={"1px solid gray"}
-        borderRadius={"8px"}
-        width={{ base: "unset", md: "310px", lg: "310px" }}
-        padding={"8px"}
-      >
-        <Text fontSize={"1rem"} color={"#8A94A6"}>
-          {" "}
-          Total Amount
-        </Text>
-        <Text fontWeight={"bold"} fontSize="1.5rem">
-          &#8377; {totalIncome}
-        </Text>
-      </Stack>
-      <IconButton
-        colorScheme="blue"
-        aria-label="Search database"
-        icon={<VscAdd />}
-        size="md"
-        w={{ sm: "200px", md: "unset", lg: "unset" }}
-        onClick={() => setIncomeModal(!incomeModalOpen)}
-      />
+      <Stack mr={{ lg: "1rem" }}>
+          <CustomButton
+            onClick={() => setIncomeModal(!incomeModalOpen)}
+            type="submit"
+            fontSize={""}
+            bg="#3182ce"
+            color="white"
+          >
+            Add Income
+          </CustomButton>
+        </Stack>
     </Stack>
   );
 };

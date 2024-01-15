@@ -16,12 +16,14 @@ export const ExpenseTotalHeader = ({
   return (
     <Stack
       m={"1rem"}
-      direction={{ base: "column", sm: "column", md: "row", lg: "row" }}
+      direction={{ base: "column", sm: "column", md: "column", lg: "row" }}
+      justifyContent={'space-between'}
     >
-      <Stack
+        <Stack direction={{ base: "column", sm: "column", md: "column", lg: "row" }}>
+        <Stack
         border={"1px solid gray"}
         borderRadius={"8px"}
-        width={{ base: "unset", md: "310px", lg: "310px" }}
+        width={{ base: "unset", md: "unset", lg: "310px" }}
         padding={"8px"}
       >
         <Text color={"#8A94A6"}>Total expenses</Text>
@@ -32,7 +34,7 @@ export const ExpenseTotalHeader = ({
       <Stack
         border={"1px solid gray"}
         borderRadius={"8px"}
-        width={{ base: "unset", md: "310px", lg: "310px" }}
+        width={{ base: "unset", md: "unset", lg: "310px" }}
         padding={"8px"}
       >
         <Text color={"#8A94A6"}> Total Amount</Text>
@@ -40,7 +42,8 @@ export const ExpenseTotalHeader = ({
           &#8377; {totalExpenses}
         </Text>
       </Stack>
-      <Stack alignItems={"center"} justifyContent={"center"} alignSelf={'flex-end'} justifySelf={'flex-end'}>
+        </Stack>
+      <Stack    mr={{lg:'1rem'}}>
         <CustomButton
           onClick={() => setExpenseModal(!expenseModalOpen)}
           type="submit"
