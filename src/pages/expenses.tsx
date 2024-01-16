@@ -1,4 +1,4 @@
-import ExpensesModal from "@/components/modal/Expenses";
+import ExpensesModal from "@/components/Modal/Expenses";
 import SimpleSidebar, { getRouteText } from "@/components/SideBar";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
@@ -36,11 +36,11 @@ function Expenses() {
             ml={".5rem"}
           />
           {expensesModalOpen && (
-          <ExpensesModal
-            isOpen={expensesModalOpen}
-            setIsOpen={setExpensesModal}
-          />
-        )}
+            <ExpensesModal
+              isOpen={expensesModalOpen}
+              setIsOpen={setExpensesModal}
+            />
+          )}
           <ExpenseTotalHeader
             expenseModalOpen={expensesModalOpen}
             setExpenseModal={setExpensesModal}

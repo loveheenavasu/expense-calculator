@@ -14,24 +14,19 @@ import {
   Stack,
   ModalHeader,
   Select,
-  Icon,
   Textarea,
-  css,
 } from "@chakra-ui/react";
-import { Button, useDisclosure, useToast } from "@chakra-ui/react";
+import { useDisclosure, useToast } from "@chakra-ui/react";
 import { CommonModalProps } from "../../types";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import { CustomButton } from "../common/Button";
-import { useDispatch, useSelector } from "react-redux";
 import { addExpense } from "@/services/slices/expense-trackerSlice";
-import { RootState } from "@/services/redux-store/store";
-import { useAppSelector } from "@/hooks/dispatchSelectHook";
+import { useAppDispatch } from "@/hooks/dispatchSelectHook";
 export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
   const { onClose } = useDisclosure();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const toast = useToast();
-  const expensesData = useAppSelector((state: RootState) => state.expenses);
   const initialValues = {
     name_type: "",
     price: 0,
@@ -193,6 +188,7 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                               </option>
                               <option value="Grocery">Grocery</option>
                               <option value="Clothes">Clothes</option>
+                              <option value="other">Other</option>
                             </Select>
                           </Box>
                           <Box w={"50%"}>
@@ -208,6 +204,7 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                               </option>
                               <option value="Net Banking">Net Banking</option>
                               <option value="E-Wallet">E-Wallet</option>
+                              <option value="other">Other</option>
                             </Select>
                           </Box>
                         </InputGroup>

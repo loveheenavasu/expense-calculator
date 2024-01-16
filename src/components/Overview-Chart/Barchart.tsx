@@ -25,6 +25,7 @@ const LABELS = [
 const OPTIONS = {
   responsive: true,
   maintainAspectRatio: false,
+  // inflateAmount:0,
   scales: {
     x: {
       grid: {
@@ -35,14 +36,13 @@ const OPTIONS = {
       },
       ticks: {
         color: "#FFF",
-
         font: {
           size: 14,
         },
       },
     },
     y: {
-      beginAtZero: true,
+      beginAtZero:true,
       border: {
         display: false,
       },
@@ -67,19 +67,17 @@ export const  BarChart=({ incomeData, expenseData }: any) =>{
     Tooltip,
     Legend
   );
-  const mapIncomeData = incomeData?.map((income: any) => income.amount);
-  const mappedExpenseDate = expenseData?.map((expense: any) => expense.price);
   const data = {
     labels: LABELS,
     datasets: [
       {
         label: "Income Data",
-        data: mapIncomeData,
+        data: incomeData,
         backgroundColor: "#0084FF",
       },
       {
         label: "Expenses Data",
-        data: mappedExpenseDate,
+        data: expenseData,
         backgroundColor: "#388E3C",
       },
     ],

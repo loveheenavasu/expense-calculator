@@ -191,7 +191,8 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                               <option value="Passive Income">
                                 Passive Income
                               </option>
-                              <option value="Youtube">Youtube</option>
+                              <option value="Youtube" >Youtube</option>
+                              <option value='other'>Other</option>
                             </Select>
                           </Box>
                         </InputGroup>

@@ -1,9 +1,9 @@
-import IncomeModal from "@/components/modal/Income";
+import IncomeModal from "@/components/Modal/Income";
 import SimpleSidebar, { getRouteText } from "@/components/SideBar";
-import { useAppDispatch, useAppSelector } from "@/hooks/dispatchSelectHook";
+import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
-import { Divider, IconButton, Stack, Text, useToast } from "@chakra-ui/react";
-import React, { ReactElement, useState } from "react";
+import { Divider,Stack, Text} from "@chakra-ui/react";
+import React, {useState } from "react";
 import { useRouter } from "next/router";
 import { IncomeTable } from "@/components/Table/Income-Table";
 import { NoDataFound } from "@/components/common/No-Data-Found";
@@ -11,16 +11,10 @@ import { IncomeTotalHeader } from "@/components/Income-Total-Header";
 
 function Income() {
   const [isIncomeModalOpen, setIncomeModal] = useState(false);
-  const dispatch = useAppDispatch();
   const route = useRouter();
   const routePath = getRouteText(route.pathname);
-  const toast = useToast();
   const incomeData = useAppSelector(
     (state: RootState) => state.expenses.income
-  );
-  const totalIncome = incomeData.reduce(
-    (total, income) => total + Number(income.amount),
-    0
   );
 
   return (

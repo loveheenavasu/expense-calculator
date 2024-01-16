@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { MdDelete } from "react-icons/md";
-import { ExpenseFormData } from "../../types";
+import { ExpenseFormData } from "@/types/Expense";
 import { useAppDispatch } from "@/hooks/dispatchSelectHook";
 import { deleteExpenseById } from "@/services/slices/expense-trackerSlice";
 

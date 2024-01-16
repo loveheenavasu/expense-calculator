@@ -1,4 +1,5 @@
-import { ExpenseFormData, IncomeFormData } from "@/types";
+import { ExpenseFormData } from "@/types/Expense";
+import { IncomeFormData } from "@/types/Income";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 const expensesIntialState: ExpenseFormData[] = [];
 const incomeInitialState: IncomeFormData[] = [];

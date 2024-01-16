@@ -4,10 +4,11 @@ import { Stack, Text, HStack, Icon, Divider, Box } from "@chakra-ui/react";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
 import SimpleSidebar from "@/components/SideBar";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/Navbar";
 import { BarChart } from "@/components/Overview-Chart/Barchart";
 import { DoughnutChart } from "@/components/Overview-Chart/Doughnut-chart";
 import { OverviewTotal } from "@/components/Overview-Total-Header";
+import { convertYMDtoDMY } from "@/utils/dateFormatter";
 export default function Home() {
   const incomeData = useAppSelector(
     (state: RootState) => state.expenses.income
@@ -15,6 +16,30 @@ export default function Home() {
   const expenseData = useAppSelector(
     (state: RootState) => state.expenses.expenses
   );
+  const calculateTotalIncomeByMonthArray = () => {
+    const cleanedIncomeData = incomeData.map(({ amount, receivedDate }) => ({ amount, receivedDate }));
+    const totalIncomeByMonth = Array(12).fill(0);
+    cleanedIncomeData.forEach((income:any) => {
+      const { amount, receivedDate } = income; 
+        const month = new Date(receivedDate).getMonth();
+      totalIncomeByMonth[month] += amount;
+    });
+  
+    return totalIncomeByMonth;
+  };
+ const calculateTotalExpenseByMonth=()=>{
+  const cleanedIncomeData = expenseData.map(({ price, spendDate}) => ({ price,spendDate }));
+    const totalExpenseByMonth = Array(12).fill(0);
+    cleanedIncomeData.forEach((income:any) => {
+      const { price, spendDate} = income; 
+        const month = new Date(spendDate).getMonth();
+      totalExpenseByMonth[month] += price;
+    });
+  
+    return totalExpenseByMonth;
+ }
+const incomesInMonths=calculateTotalIncomeByMonthArray()
+const ExpensesInMonths=calculateTotalExpenseByMonth();
   const totalIncome = incomeData.reduce(
     (total, income) => total + Number(income.amount),
     0
@@ -23,7 +48,6 @@ export default function Home() {
     (total, expense) => total + Number(expense.price),
     0
   );
-  const totalAvailableBalance = totalIncome - totalExpenses;
   return (
     <>
       <Head>
@@ -49,6 +73,7 @@ export default function Home() {
                 md: "row",
                 lg: "row",
               }}
+              justifyContent={'center'}
               wrap={"wrap"}
               bg={"#0d1325"}
             >
@@ -62,13 +87,13 @@ export default function Home() {
                 m={"1rem"}
               >
                 <Stack
-                  width={{ base: "98%", md: "none", lg: "50%", xl: "800px" }}
+                  width={{ base: "100%", md: "none", lg: "50%", xl: "800px" }}
                   h={{ lg: "420px" }}
                   border={"1px solid gray"}
                   borderRadius={"8px"}
                   alignSelf={"flex-end"}
                   alignItems={"center"}
-                  mr={"1rem"}
+                  mr={{lg:"1rem"}}
                   padding={".5rem 1rem .5rem"}
                 >
                   <Text fontSize={"2rem"}>Summary</Text>
@@ -79,8 +104,8 @@ export default function Home() {
                       alignItems={"center"}
                     >
                       <BarChart
-                        incomeData={incomeData}
-                        expenseData={expenseData}
+                        incomeData={incomesInMonths}
+                        expenseData={ExpensesInMonths}
                       />
                     </Box>
                   ) : (
@@ -92,13 +117,13 @@ export default function Home() {
                   )}
                 </Stack>
                 <Stack
-                  width={{ base: "98%", md: "none", lg: "50%", xl: "800px" }}
+                  width={{ base: "100%", md: "none", lg: "50%", xl: "800px" }}
                   h={{ lg: "420px" }}
                   border={"1px solid gray"}
                   borderRadius={"8px"}
                   alignSelf={"flex-end"}
                   alignItems={"center"}
-                  mr={"1rem"}
+                  mr={{lg:"1rem"}}
                   padding={".5rem 1rem .5rem"}
                 >
                   <Text fontSize={"2rem"}>Summary</Text>

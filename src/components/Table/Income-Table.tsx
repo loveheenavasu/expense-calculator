@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { MdDelete } from "react-icons/md";
-import { IncomeFormData } from "../../types";
+import { IncomeFormData } from "@/types/Income";
 import { useAppDispatch } from "@/hooks/dispatchSelectHook";
 import { deleteIncomeById } from "@/services/slices/expense-trackerSlice";
 
