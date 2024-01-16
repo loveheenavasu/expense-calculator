@@ -38,7 +38,7 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
     name_type: "",
     amount: 0,
     receivedDate: "",
-    category: "",
+    category: "Salary",
     description: "",
   };
 
@@ -185,7 +185,7 @@ export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                               name="category"
                               borderColor={"GrayText"}
                             >
-                              <option value="Salary" selected>
+                              <option value="Salary">
                                 Salary
                               </option>
                               <option value="Passive Income">

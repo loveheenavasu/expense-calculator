@@ -31,8 +31,8 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
     name_type: "",
     price: 0,
     spendDate: "",
-    category: "",
-    paidVia: "",
+    category: "Food",
+    paidVia: "UPI",
     description: "",
   };
 
@@ -183,7 +183,7 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                               name="category"
                               borderColor={"GrayText"}
                             >
-                              <option value="Food" selected>
+                              <option value="Food">
                                 Food
                               </option>
                               <option value="Grocery">Grocery</option>
@@ -199,7 +199,7 @@ export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                               name="paidVia"
                               borderColor={"GrayText"}
                             >
-                              <option value="UPI" selected>
+                              <option value="UPI">
                                 UPI
                               </option>
                               <option value="Net Banking">Net Banking</option>

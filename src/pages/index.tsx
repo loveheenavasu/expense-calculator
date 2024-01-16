@@ -99,7 +99,7 @@ const ExpensesInMonths=calculateTotalExpenseByMonth();
                   <Text fontSize={"2rem"}>Summary</Text>
                   {totalExpenses || totalIncome > 0 ? (
                     <Box
-                      w={{ base: "none%", md: "80%", lg: "70%" }}
+                      w={{ base: "none", md: "80%", lg: "70%" }}
                       height={{ lg: "420px" }}
                       alignItems={"center"}
                     >
