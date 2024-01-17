@@ -1,4 +1,4 @@
-import IncomeModal from "@/components/Modal/Income";
+import {IncomeModal} from "@/components/Modal/IncomeModal";
 import SimpleSidebar, { getRouteText } from "@/components/SideBar";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";

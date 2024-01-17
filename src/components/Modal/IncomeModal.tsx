@@ -27,7 +27,7 @@ import { useDispatch } from "react-redux";
 import { addExpense, addIncome } from "@/services/slices/expense-trackerSlice";
 import { RootState } from "@/services/redux-store/store";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
-export default function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
+export function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
   const { onClose } = useDisclosure();
   const dispatch = useDispatch();
   const toast = useToast();

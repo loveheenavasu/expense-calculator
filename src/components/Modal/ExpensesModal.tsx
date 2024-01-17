@@ -23,7 +23,7 @@ import { Formik, Form } from "formik";
 import { CustomButton } from "../common/Button";
 import { addExpense } from "@/services/slices/expense-trackerSlice";
 import { useAppDispatch } from "@/hooks/dispatchSelectHook";
-export default function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
+export function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
   const { onClose } = useDisclosure();
   const dispatch = useAppDispatch();
   const toast = useToast();

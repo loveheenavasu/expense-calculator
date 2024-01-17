@@ -1,4 +1,4 @@
-import ExpensesModal from "@/components/Modal/Expenses";
+import {ExpensesModal} from "@/components/Modal/ExpensesModal";
 import SimpleSidebar, { getRouteText } from "@/components/SideBar";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
