@@ -2,7 +2,7 @@ import Head from "next/head";
 import { Stack, Text,Divider, Box } from "@chakra-ui/react";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
-import {SimpleSidebar} from '@/components/SideBar';
+import {Sidebar} from '@/components/SideBar';
 import Navbar from "@/components/Navbar";
 import { BarChart } from "@/components/Overview-Chart/Barchart";
 import { DoughnutChart } from "@/components/Overview-Chart/Doughnut-chart";
@@ -56,7 +56,7 @@ const ExpensesInMonths=calculateTotalExpenseByMonth();
       </Head>
       <main>
         <Stack h={"100vh"} bg={"#0d1325"} color={"white"} w={"100vw"}>
-          <SimpleSidebar />
+          <Sidebar />
           <Stack ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}>
             <Navbar title="Overview" />
             <Divider

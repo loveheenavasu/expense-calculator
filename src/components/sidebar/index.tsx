@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import {
   IconButton,
@@ -57,7 +55,7 @@ export function getRouteText(pathname: string) {
   }
 }
 
-export function SimpleSidebar() {
+export function Sidebar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (

@@ -1,5 +1,6 @@
 import {IncomeModal} from "@/components/Modal/IncomeModal";
-import  { SimpleSidebar,getRouteText } from "@/components/SideBar";
+import { Sidebar } from "@/components/SideBar";
+import  { getRouteText } from "@/components/SideBar";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
 import { Divider,Stack, Text} from "@chakra-ui/react";
@@ -20,7 +21,7 @@ function Income() {
   return (
     <>
       <Stack h={"100vh"} w={"100vw"} bg="#0d1325" color="white">
-        <SimpleSidebar />
+        <Sidebar />
         {isIncomeModalOpen && (
           <IncomeModal isOpen={isIncomeModalOpen} setIsOpen={setIncomeModal} />
         )}

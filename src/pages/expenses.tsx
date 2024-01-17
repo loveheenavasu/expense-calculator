@@ -1,5 +1,5 @@
 import {ExpensesModal} from "@/components/Modal/ExpensesModal";
-import { SimpleSidebar,getRouteText } from "@/components/SideBar";
+import { Sidebar,getRouteText } from "@/components/SideBar";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
 import { Divider, Stack, Text } from "@chakra-ui/react";
@@ -19,7 +19,7 @@ function Expenses() {
   return (
     <>
       <Stack h={"100vh"} w={"100vw"} bg={"#0d1325"}>
-        <SimpleSidebar />
+        <Sidebar />
         <Stack ml={{ sm: "none", base: "none", md: "9.5rem", lg: "9.5rem" }}>
           <Text
             ml={"1rem"}
