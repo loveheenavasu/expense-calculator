@@ -3,7 +3,7 @@ import { Stack, Text, Divider, Box } from "@chakra-ui/react";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
 import { Sidebar } from "@/components/Side-Navigation-Bar";
-import Navbar from "@/components/Navbar";
+import { Navbar } from "@/components/Nav-Bar";
 import { BarChart } from "@/components/Overview-Chart/Barchart";
 import { DoughnutChart } from "@/components/Overview-Chart/Doughnut-chart";
 import { OverviewTotal } from "@/components/Overview-Total-Header";
