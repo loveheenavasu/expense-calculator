@@ -1,8 +1,8 @@
 import Head from "next/head";
-import { Stack, Text,Divider, Box } from "@chakra-ui/react";
+import { Stack, Text, Divider, Box } from "@chakra-ui/react";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
-import {Sidebar} from '@/components/SideBar';
+import { Sidebar } from "@/components/Side-Navigation-Bar";
 import Navbar from "@/components/Navbar";
 import { BarChart } from "@/components/Overview-Chart/Barchart";
 import { DoughnutChart } from "@/components/Overview-Chart/Doughnut-chart";
@@ -15,29 +15,35 @@ export default function Home() {
     (state: RootState) => state.expenses.expenses
   );
   const calculateTotalIncomeByMonthArray = () => {
-    const cleanedIncomeData = incomeData.map(({ amount, receivedDate }) => ({ amount, receivedDate }));
+    const cleanedIncomeData = incomeData.map(({ amount, receivedDate }) => ({
+      amount,
+      receivedDate,
+    }));
     const totalIncomeByMonth = Array(12).fill(0);
-    cleanedIncomeData.forEach((income:any) => {
-      const { amount, receivedDate } = income; 
-        const month = new Date(receivedDate).getMonth();
+    cleanedIncomeData.forEach((income: any) => {
+      const { amount, receivedDate } = income;
+      const month = new Date(receivedDate).getMonth();
       totalIncomeByMonth[month] += amount;
     });
-  
+
     return totalIncomeByMonth;
   };
- const calculateTotalExpenseByMonth=()=>{
-  const cleanedIncomeData = expenseData.map(({ price, spendDate}) => ({ price,spendDate }));
+  const calculateTotalExpenseByMonth = () => {
+    const cleanedIncomeData = expenseData.map(({ price, spendDate }) => ({
+      price,
+      spendDate,
+    }));
     const totalExpenseByMonth = Array(12).fill(0);
-    cleanedIncomeData.forEach((income:any) => {
-      const { price, spendDate} = income; 
-        const month = new Date(spendDate).getMonth();
+    cleanedIncomeData.forEach((income: any) => {
+      const { price, spendDate } = income;
+      const month = new Date(spendDate).getMonth();
       totalExpenseByMonth[month] += price;
     });
-  
+
     return totalExpenseByMonth;
- }
-const incomesInMonths=calculateTotalIncomeByMonthArray()
-const ExpensesInMonths=calculateTotalExpenseByMonth();
+  };
+  const incomesInMonths = calculateTotalIncomeByMonthArray();
+  const ExpensesInMonths = calculateTotalExpenseByMonth();
   const totalIncome = incomeData.reduce(
     (total, income) => total + Number(income.amount),
     0
@@ -71,7 +77,7 @@ const ExpensesInMonths=calculateTotalExpenseByMonth();
                 md: "row",
                 lg: "row",
               }}
-              justifyContent={'center'}
+              justifyContent={"center"}
               wrap={"wrap"}
               bg={"#0d1325"}
             >
@@ -91,7 +97,7 @@ const ExpensesInMonths=calculateTotalExpenseByMonth();
                   borderRadius={"8px"}
                   alignSelf={"flex-end"}
                   alignItems={"center"}
-                  mr={{lg:"1rem"}}
+                  mr={{ lg: "1rem" }}
                   padding={".5rem 1rem .5rem"}
                 >
                   <Text fontSize={"2rem"}>Summary</Text>
@@ -121,7 +127,7 @@ const ExpensesInMonths=calculateTotalExpenseByMonth();
                   borderRadius={"8px"}
                   alignSelf={"flex-end"}
                   alignItems={"center"}
-                  mr={{lg:"1rem"}}
+                  mr={{ lg: "1rem" }}
                   padding={".5rem 1rem .5rem"}
                 >
                   <Text fontSize={"2rem"}>Summary</Text>

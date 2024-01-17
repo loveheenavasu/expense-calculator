@@ -1,5 +1,5 @@
 import { ExpensesModal } from "@/components/Modal/ExpensesModal";
-import { Sidebar, getRouteText } from "@/components/SideBar";
+import { Sidebar, getRouteText } from "@/components/Side-Navigation-Bar";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
 import { Divider, Stack, Text } from "@chakra-ui/react";

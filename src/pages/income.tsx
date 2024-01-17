@@ -1,10 +1,10 @@
-import {IncomeModal} from "@/components/Modal/IncomeModal";
-import { Sidebar } from "@/components/SideBar";
-import  { getRouteText } from "@/components/SideBar";
+import { IncomeModal } from "@/components/Modal/IncomeModal";
+import { Sidebar } from "@/components/Side-Navigation-Bar";
+import { getRouteText } from "@/components/Side-Navigation-Bar";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
-import { Divider,Stack, Text} from "@chakra-ui/react";
-import React, {useState } from "react";
+import { Divider, Stack, Text } from "@chakra-ui/react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { IncomeTable } from "@/components/Table/Income-Table";
 import { NoDataFound } from "@/components/common/No-Data-Found";
