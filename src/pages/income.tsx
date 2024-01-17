@@ -1,5 +1,5 @@
 import {IncomeModal} from "@/components/Modal/IncomeModal";
-import SimpleSidebar, { getRouteText } from "@/components/SideBar";
+import  { SimpleSidebar,getRouteText } from "@/components/SideBar";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
 import { Divider,Stack, Text} from "@chakra-ui/react";

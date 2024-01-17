@@ -57,7 +57,7 @@ export function getRouteText(pathname: string) {
   }
 }
 
-export default function SimpleSidebar() {
+export function SimpleSidebar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (

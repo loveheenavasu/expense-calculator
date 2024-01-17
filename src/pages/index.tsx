@@ -1,14 +1,12 @@
 import Head from "next/head";
-import styles from "@/styles/Home.module.css";
-import { Stack, Text, HStack, Icon, Divider, Box } from "@chakra-ui/react";
+import { Stack, Text,Divider, Box } from "@chakra-ui/react";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { RootState } from "@/services/redux-store/store";
-import SimpleSidebar from "@/components/SideBar";
+import {SimpleSidebar} from '@/components/SideBar';
 import Navbar from "@/components/Navbar";
 import { BarChart } from "@/components/Overview-Chart/Barchart";
 import { DoughnutChart } from "@/components/Overview-Chart/Doughnut-chart";
 import { OverviewTotal } from "@/components/Overview-Total-Header";
-import { convertYMDtoDMY } from "@/utils/dateFormatter";
 export default function Home() {
   const incomeData = useAppSelector(
     (state: RootState) => state.expenses.income
