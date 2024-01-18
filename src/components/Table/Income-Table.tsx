@@ -10,17 +10,21 @@ import {
   Td,
   IconButton,
   useToast,
+  HStack,
 } from "@chakra-ui/react";
 import React from "react";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdEdit } from "react-icons/md";
 import { IncomeFormData } from "@/types/Income";
 import { useAppDispatch } from "@/hooks/dispatchSelectHook";
 import { deleteIncomeById } from "@/services/slices/expense-trackerSlice";
+import { IncomeModal } from "../Modal/IncomeModal";
 
 export const IncomeTable = ({ incomeData }: any) => {
   const toast = useToast();
   const dispatch = useAppDispatch();
-  const deleteHandler = (id: string) => {
+  const [incomeModal,setIncomeModal]=React.useState(false);
+  const [editId,setEditId]=React.useState<number>(0);
+  const deleteHandler = (id: number) => {
     dispatch(deleteIncomeById(id));
     toast({
       position: "top-right",
@@ -30,8 +34,13 @@ export const IncomeTable = ({ incomeData }: any) => {
       isClosable: true,
     });
   };
+  const editHandler=(id:number)=>{
+    setEditId(id);
+    setIncomeModal(true);
+  }
   return (
     <Stack m={"1rem"} border="1px solid gray" borderRadius=".25rem">
+      {incomeModal&&<IncomeModal isOpen={incomeModal} setIsOpen={setIncomeModal} editId={editId}/>}
       <TableContainer style={{ overflow: "auto", maxHeight: "500px" }}>
         <Table variant="simple" border={"1px solid"} borderColor="GrayText">
           <Thead bg="#253669" color="#FFFFFF">
@@ -53,25 +62,28 @@ export const IncomeTable = ({ incomeData }: any) => {
                   borderBottom={"1px solid green"}
                 >
                   <Td>{income.name_type}</Td>
-                  <Td>
-                    {income.amount && income.amount > 0 ? (
-                      <span>{income.amount}</span>
-                    ) : (
-                      <span>{}</span>
-                    )}
-                  </Td>
+                  <Td>{income.amount}</Td>
                   <Td>{convertYMDtoDMY(income.receivedDate)}</Td>
                   <Td>{income.category}</Td>
                   <Td>{income.description}</Td>
                   <Td>
                     {
+                      <HStack>
                       <IconButton
                         colorScheme="blue"
-                        aria-label="remove button"
+                        aria-label="Search database"
                         icon={<MdDelete />}
-                        size="sm"
-                        onClick={() => deleteHandler(income.id)}
+                        size={"sm"}
+                        onClick={() => deleteHandler(income?.id)}
                       />
+                      <IconButton
+                        colorScheme="blue"
+                        aria-label="Search database"
+                        icon={<MdEdit />}
+                        size={"sm"}
+                        onClick={() => editHandler(income?.id)}
+                      />
+                      </HStack>
                     }
                   </Td>
                 </Tr>

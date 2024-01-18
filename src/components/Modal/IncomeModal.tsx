@@ -24,24 +24,28 @@ import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import { CustomButton } from "../common/Button";
 import { useDispatch } from "react-redux";
-import { addExpense, addIncome } from "@/services/slices/expense-trackerSlice";
+import { addExpense, addIncome, updateIncome } from "@/services/slices/expense-trackerSlice";
 import { RootState } from "@/services/redux-store/store";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
-export function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
+import { IncomeModalProps } from "@/types/Income";
+const initialValues = {
+  name_type: "",
+  amount: 0,
+  receivedDate: "",
+  category: "Salary",
+  description: "",
+};
+export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
   const { onClose } = useDisclosure();
   const dispatch = useDispatch();
   const toast = useToast();
   const incomeData = useAppSelector(
     (state: RootState) => state.expenses.income
   );
-  const initialValues = {
-    name_type: "",
-    amount: 0,
-    receivedDate: "",
-    category: "Salary",
-    description: "",
-  };
-
+ 
+  const IncomeUpdateValue = useAppSelector((state: RootState) =>
+  state.expenses.income.filter((item) => item.id === editId)
+)[0];
   const validationSchema = Yup.object().shape({
     name_type: Yup.string()
       .required("Name is required")
@@ -61,7 +65,6 @@ export function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
   };
   const handleAddIncome = (values: any) => {
     const id = Date.now();
-    console.log("values", values);
     dispatch(addIncome({ ...values, id }));
     toast({
       position: "top-right",
@@ -71,6 +74,19 @@ export function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
       isClosable: true,
     });
     handleClose();
+  };
+  const handleUpdateIncome = (values: any) => {
+    if (editId) {
+      dispatch(updateIncome({ ...values, id: editId }));
+      toast({
+        position: "top-right",
+        description: "Income updated Sucessfully.",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      handleClose();
+    }
   };
   return (
     <>
@@ -108,10 +124,12 @@ export function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
             >
               <Box>
                 <Formik
-                  initialValues={initialValues}
+                  initialValues={IncomeUpdateValue||initialValues}
                   validationSchema={validationSchema}
                   onSubmit={(values) => {
-                    handleAddIncome(values);
+                    editId && editId > 1
+                      ? handleUpdateIncome(values)
+                      : handleAddIncome(values);
                   }}
                 >
                   {({ handleChange, values, errors }) => (
@@ -130,6 +148,7 @@ export function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                             name="name_type"
                             borderColor={"GrayText"}
                             onChange={handleChange}
+                            defaultValue={IncomeUpdateValue?.name_type}
                           />
                           <Text color={"red"}>{errors.name_type}</Text>
                         </InputGroup>
@@ -145,6 +164,7 @@ export function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                               min={0}
                               max={300000}
                               borderColor={"GrayText"}
+                              defaultValue={IncomeUpdateValue?.amount}
                             />
                             <Text color={"red"}>{errors.amount}</Text>
                           </Box>
@@ -162,12 +182,12 @@ export function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                               required
                               css={`
                                 ::-webkit-calendar-picker-indicator {
-                                  background: url(https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/calendar-16.png)
+                                  background:url("/icon-calender-removebg-preview.png")
                                     center/80% no-repeat;
-                                  // color: white;
                                 }
                               `}
                               onChange={handleChange}
+                              defaultValue={IncomeUpdateValue?.receivedDate}
                             />
                           </Box>
                         </InputGroup>
@@ -184,6 +204,7 @@ export function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                               onChange={handleChange}
                               name="category"
                               borderColor={"GrayText"}
+                              defaultValue={IncomeUpdateValue?.category}
                             >
                               <option value="Salary">
                                 Salary
@@ -208,6 +229,7 @@ export function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                             onChange={handleChange}
                             name="description"
                             borderColor={"GrayText"}
+                            defaultValue={IncomeUpdateValue?.description}
                           />
                           <Text color={"red"}>{errors.description}</Text>
                           <Box
@@ -218,7 +240,7 @@ export function IncomeModal({ isOpen, setIsOpen }: CommonModalProps) {
                             justifyContent={"center"}
                           >
                             <CustomButton type="submit" fontSize={"1rem"} bg="white">
-                              Add
+                            {editId && editId > 1 ? "Edit" : "Add"}
                             </CustomButton>
                           </Box>
                         </InputGroup>

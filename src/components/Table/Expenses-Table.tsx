@@ -11,14 +11,19 @@ import {
   IconButton,
   Text,
   useToast,
+  HStack,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { MdDelete } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 import { ExpenseFormData } from "@/types/Expense";
 import { useAppDispatch } from "@/hooks/dispatchSelectHook";
 import { deleteExpenseById } from "@/services/slices/expense-trackerSlice";
+import { ExpensesModal } from "../Modal/ExpensesModal";
 
 export const ExpenseTable = ({ expenseData }: any) => {
+  const [expenseModal,setExpenseModal]=useState(false);
+  const [editId,setEditId]=useState<number>(0);
   const toast = useToast();
   const dispatch = useAppDispatch();
   const deleteHandler = (id: number) => {
@@ -31,6 +36,10 @@ export const ExpenseTable = ({ expenseData }: any) => {
       isClosable: true,
     });
   };
+  const editHandler=(id:number)=>{
+    setEditId(id);
+    setExpenseModal(true);
+  }
   return (
     <Stack
       m={"1rem"}
@@ -39,6 +48,7 @@ export const ExpenseTable = ({ expenseData }: any) => {
       color="white"
       borderColor="GrayText"
     >
+      {expenseModal&&<ExpensesModal isOpen={expenseModal} setIsOpen={setExpenseModal} editId={editId}/>}
       <TableContainer style={{ overflow: "auto", maxHeight: "500px" }}>
         <Table variant="simple" border={"1px solid"} borderColor="GrayText">
           <Thead bg="#253669">
@@ -78,6 +88,7 @@ export const ExpenseTable = ({ expenseData }: any) => {
                   </Td>
                   <Td align="center" justifyContent={"center"}>
                     {
+                      <HStack>
                       <IconButton
                         colorScheme="blue"
                         aria-label="Search database"
@@ -85,6 +96,14 @@ export const ExpenseTable = ({ expenseData }: any) => {
                         size={"sm"}
                         onClick={() => deleteHandler(expense.id)}
                       />
+                      <IconButton
+                        colorScheme="blue"
+                        aria-label="Search database"
+                        icon={<MdEdit />}
+                        size={"sm"}
+                        onClick={() => editHandler(expense.id)}
+                      />
+                      </HStack>
                     }
                   </Td>
                 </Tr>

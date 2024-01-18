@@ -17,25 +17,36 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { useDisclosure, useToast } from "@chakra-ui/react";
-import { CommonModalProps } from "../../types";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import { CustomButton } from "../common/Button";
-import { addExpense } from "@/services/slices/expense-trackerSlice";
-import { useAppDispatch } from "@/hooks/dispatchSelectHook";
-export function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
+import {
+  addExpense,
+  updateExpense,
+} from "@/services/slices/expense-trackerSlice";
+import { useAppDispatch, useAppSelector } from "@/hooks/dispatchSelectHook";
+import { RootState } from "@/services/redux-store/store";
+import { ExpenseModalProps } from "@/types/Expense";
+const initialValues = {
+  name_type: "",
+  price: 0,
+  spendDate: "",
+  category: "Food",
+  paidVia: "UPI",
+  description: "",
+};
+export function ExpensesModal({
+  isOpen,
+  setIsOpen,
+  editId,
+}: ExpenseModalProps) {
+  // const [updatingValues, setUpdateValues] = React.useState<any>(initialValues);
+  const expenseUpdateValue = useAppSelector((state: RootState) =>
+    state.expenses.expenses.filter((item) => item.id === editId)
+  )[0];
   const { onClose } = useDisclosure();
   const dispatch = useAppDispatch();
   const toast = useToast();
-  const initialValues = {
-    name_type: "",
-    price: 0,
-    spendDate: "",
-    category: "Food",
-    paidVia: "UPI",
-    description: "",
-  };
-
   const validationSchema = Yup.object().shape({
     name_type: Yup.string()
       .matches(/^\S.*\S$/, "Name cannot contain whitespace or tabs")
@@ -55,16 +66,31 @@ export function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
     setIsOpen(false);
   };
   const handleAddExpense = (values: any) => {
-    const id = Date.now();
-    dispatch(addExpense({ ...values, id }));
-    toast({
-      position: "top-right",
-      description: "Expense added Sucessfully.",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-    handleClose();
+    if (values) {
+      const id = Date.now();
+      dispatch(addExpense({ ...values, id }));
+      toast({
+        position: "top-right",
+        description: "Expense added Sucessfully.",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      handleClose();
+    }
+  };
+  const handleUpdateExpense = (values: any) => {
+    if (editId) {
+      dispatch(updateExpense({ ...values, id: editId }));
+      toast({
+        position: "top-right",
+        description: "Expense updated Sucessfully.",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      handleClose();
+    } 
   };
   return (
     <>
@@ -102,10 +128,12 @@ export function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
             >
               <Box>
                 <Formik
-                  initialValues={initialValues}
+                  initialValues={expenseUpdateValue||initialValues}
                   validationSchema={validationSchema}
                   onSubmit={(values) => {
-                    handleAddExpense(values);
+                    editId && editId > 1
+                      ? handleUpdateExpense(values)
+                      : handleAddExpense(values);
                   }}
                 >
                   {({ handleChange, values, errors }) => (
@@ -124,6 +152,7 @@ export function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                             name="name_type"
                             borderColor={"GrayText"}
                             onChange={handleChange}
+                            defaultValue={expenseUpdateValue?.name_type}
                           />
                           <Text color={"red"}>{errors.name_type}</Text>
                         </InputGroup>
@@ -144,29 +173,32 @@ export function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                               min={0}
                               max={300000}
                               borderColor={"GrayText"}
+                              defaultValue={expenseUpdateValue?.price}
                             />
                             <Text color={"red"}>{errors.price}</Text>
                           </Box>
                           <Box width="50%">
                             <FormLabel>Spend Date</FormLabel>
-                            <Input
-                              pr="4.5rem"
-                              placeholder="10/04/2024"
-                              type="date"
-                              name="spendDate"
-                              max={new Date().toISOString().split("T")[0]}
-                              borderColor={"GrayText"}
-                              required
-                              css={`
-                                ::-webkit-calendar-picker-indicator {
-                                  background: url(https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/calendar-16.png)
-                                    center/80% no-repeat;
-                                  // color: white;
-                                }
-                              `}
-                              onChange={handleChange}
-                              color={"white"}
-                            />
+                            <InputGroup>
+                              <Input
+                                pr="4.5rem"
+                                placeholder="10/04/2024"
+                                type="date"
+                                name="spendDate"
+                                max={new Date().toISOString().split("T")[0]}
+                                borderColor={"GrayText"}
+                                required
+                                css={`
+                                  ::-webkit-calendar-picker-indicator {
+                                    background: url("/icon-calender-removebg-preview.png")
+                                      center/80% no-repeat;
+                                  }
+                                `}
+                                onChange={handleChange}
+                                color={"white"}
+                                defaultValue={expenseUpdateValue?.spendDate}
+                              />
+                            </InputGroup>
                           </Box>
                         </InputGroup>
                         <InputGroup
@@ -182,10 +214,9 @@ export function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                               onChange={handleChange}
                               name="category"
                               borderColor={"GrayText"}
+                              defaultValue={expenseUpdateValue?.category}
                             >
-                              <option value="Food">
-                                Food
-                              </option>
+                              <option value="Food">Food</option>
                               <option value="Grocery">Grocery</option>
                               <option value="Clothes">Clothes</option>
                               <option value="other">Other</option>
@@ -198,10 +229,9 @@ export function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                               onChange={handleChange}
                               name="paidVia"
                               borderColor={"GrayText"}
+                              defaultValue={expenseUpdateValue?.paidVia}
                             >
-                              <option value="UPI">
-                                UPI
-                              </option>
+                              <option value="UPI">UPI</option>
                               <option value="Net Banking">Net Banking</option>
                               <option value="E-Wallet">E-Wallet</option>
                               <option value="other">Other</option>
@@ -221,6 +251,7 @@ export function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                             onChange={handleChange}
                             name="description"
                             borderColor={"GrayText"}
+                            defaultValue={expenseUpdateValue?.description}
                           />
                           <Text color={"red"}>{errors.description}</Text>
                           <Box
@@ -235,7 +266,7 @@ export function ExpensesModal({ isOpen, setIsOpen }: CommonModalProps) {
                               fontSize={"1rem"}
                               bg="white"
                             >
-                              Add
+                              {editId && editId > 1 ? "Edit" : "Add"}
                             </CustomButton>
                           </Box>
                         </InputGroup>

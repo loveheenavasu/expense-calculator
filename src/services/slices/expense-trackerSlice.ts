@@ -27,10 +27,26 @@ export const expenseTrackerSlice = createSlice({
         (income) => income.id !== action.payload
       );
     },
+    updateExpense: (state, action: PayloadAction<ExpenseFormData>) => {
+      const updatedExpenseIndex = state.expenses.findIndex(
+        (expense) => expense.id === action.payload.id
+      );
+      if (updatedExpenseIndex !==0) {
+        state.expenses[updatedExpenseIndex] = action.payload;
+      }
+    },
+    updateIncome: (state, action: PayloadAction<IncomeFormData>) => {
+      const updatedIncomeIndex = state.income.findIndex(
+        (income) =>income.id === action.payload.id
+      );
+      if (updatedIncomeIndex !== 0) {
+        state.income[updatedIncomeIndex] = action.payload;
+      }
+    },
   },
 });
 
-export const { addExpense, addIncome, deleteExpenseById, deleteIncomeById } =
+export const { addExpense, addIncome, deleteExpenseById, deleteIncomeById,updateExpense,updateIncome} =
   expenseTrackerSlice.actions;
 
 export default expenseTrackerSlice.reducer;

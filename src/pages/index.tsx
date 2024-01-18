@@ -85,6 +85,7 @@ export default function Home() {
                 totalExpenses={totalExpenses}
                 totalIncome={totalIncome}
               />
+              {<Text fontSize='1.5rem' color='red'>{totalIncome<totalExpenses?"Your expenses are going out of your income.":""}</Text>}
               <Stack
                 width={"95%"}
                 direction={{ base: "column", md: "column", lg: "row" }}

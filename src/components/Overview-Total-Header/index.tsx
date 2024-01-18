@@ -72,9 +72,7 @@ export const OverviewTotal = ({totalIncome,totalExpenses}:OverviewProps) => {
                   </HStack>
                   <Text fontWeight={"bold"} fontSize="1.5rem">
                     &#8377;{" "}
-                    {totalIncome > totalExpenses
-                      ? totalIncome - totalExpenses
-                      : 0}
+                    {totalIncome - totalExpenses}
                   </Text>
                 </Stack>
               </Stack>
