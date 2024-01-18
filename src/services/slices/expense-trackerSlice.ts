@@ -31,17 +31,13 @@ export const expenseTrackerSlice = createSlice({
       const updatedExpenseIndex = state.expenses.findIndex(
         (expense) => expense.id === action.payload.id
       );
-      if (updatedExpenseIndex !==0) {
-        state.expenses[updatedExpenseIndex] = action.payload;
-      }
+      state.expenses[updatedExpenseIndex] = action.payload;
     },
     updateIncome: (state, action: PayloadAction<IncomeFormData>) => {
       const updatedIncomeIndex = state.income.findIndex(
         (income) =>income.id === action.payload.id
       );
-      if (updatedIncomeIndex !== 0) {
-        state.income[updatedIncomeIndex] = action.payload;
-      }
+      state.income[updatedIncomeIndex] = action.payload;
     },
   },
 });
