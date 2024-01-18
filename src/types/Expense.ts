@@ -19,3 +19,13 @@ export interface ExpenseModalProps{
     setIsOpen:React.Dispatch<SetStateAction<boolean>>
     editId?:number;
 }
+export interface ExpenseFormForCategory extends ExpenseFormData{
+    categoryInput:string
+}
+export interface ExpenseFormForPaidVia extends ExpenseFormData{
+    paidViaInput:string
+}
+export interface ExpenseFormForCategoryPaid extends ExpenseFormData{
+    categoryInput:string,
+    paidViaInput:string;
+}

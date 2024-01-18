@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -31,19 +31,26 @@ const initialValues = {
   name_type: "",
   price: 0,
   spendDate: "",
-  category: "Food",
-  paidVia: "UPI",
+  category: "food",
+  paidVia: "upi",
   description: "",
 };
+let paidViaInput=false;
+let categoryInput=false;
 export function ExpensesModal({
   isOpen,
   setIsOpen,
   editId,
 }: ExpenseModalProps) {
-  // const [updatingValues, setUpdateValues] = React.useState<any>(initialValues);
   const expenseUpdateValue = useAppSelector((state: RootState) =>
     state.expenses.expenses.filter((item) => item.id === editId)
   )[0];
+  const [category, setCategory] = useState(false);
+  const [paidVia, setPaidVia] = useState(false);
+  const [otherField, setOtherField] = useState({
+    paidViaInput: "",
+    categoryInput: "",
+  });
   const { onClose } = useDisclosure();
   const dispatch = useAppDispatch();
   const toast = useToast();
@@ -55,7 +62,7 @@ export function ExpensesModal({
       .min(0, "Value cannot be negative")
       .required("Price is required"),
     spendDate: Yup.string(),
-    category: Yup.string().required(),
+    category: Yup.string(),
     paidVia: Yup.string().required(),
     description: Yup.string()
       .matches(/^\S.*\S$/, "Description cannot contain whitespace or tabs")
@@ -65,9 +72,66 @@ export function ExpensesModal({
     onClose();
     setIsOpen(false);
   };
+  const handleOtherFieldInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setOtherField((prevData: any) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   const handleAddExpense = (values: any) => {
     if (values) {
       const id = Date.now();
+      if (paidVia && category) {
+        paidViaInput=true;
+        categoryInput=true;
+        if(otherField.categoryInput===''&&otherField.paidViaInput===''){
+          toast({
+            position: "top-right",
+            description: "Category and Paid other Input field can't be empty.",
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+          });
+          return ;
+        }else{
+          dispatch(addExpense({...values,id,...otherField}));
+          paidViaInput=false;
+          categoryInput=false;
+          toast({
+            position: "top-right",
+            description: "Expenses added with other options you describe.",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+          handleClose();
+          return ;
+        }
+      } else if (paidVia) {
+        if (otherField.paidViaInput === "") {
+          toast({
+            position: "top-right",
+            description: "PaidVia other Input field can't be empty.",
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+          });
+          return;
+        }
+      } else if (category) {
+        if (otherField.categoryInput=== "") {
+          toast({
+            position: "top-right",
+            description: "Category other Input field can't be empty.",
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+          });
+          return;
+        }
+      }
       dispatch(addExpense({ ...values, id }));
       toast({
         position: "top-right",
@@ -90,7 +154,7 @@ export function ExpensesModal({
         isClosable: true,
       });
       handleClose();
-    } 
+    }
   };
   return (
     <>
@@ -128,7 +192,7 @@ export function ExpensesModal({
             >
               <Box>
                 <Formik
-                  initialValues={expenseUpdateValue||initialValues}
+                  initialValues={expenseUpdateValue || initialValues}
                   validationSchema={validationSchema}
                   onSubmit={(values) => {
                     editId && editId > 1
@@ -211,7 +275,10 @@ export function ExpensesModal({
                             <FormLabel>Category</FormLabel>
                             <Select
                               placeholder=""
-                              onChange={handleChange}
+                              onChange={(e) => {
+                                handleChange(e);
+                                setCategory(e.target.value === "other");
+                              }}
                               name="category"
                               borderColor={"GrayText"}
                               defaultValue={expenseUpdateValue?.category}
@@ -226,7 +293,10 @@ export function ExpensesModal({
                             <FormLabel>Paid via</FormLabel>
                             <Select
                               placeholder=""
-                              onChange={handleChange}
+                              onChange={(e) => {
+                                handleChange(e);
+                                setPaidVia(e.target.value === "other");
+                              }}
                               name="paidVia"
                               borderColor={"GrayText"}
                               defaultValue={expenseUpdateValue?.paidVia}
@@ -238,7 +308,33 @@ export function ExpensesModal({
                             </Select>
                           </Box>
                         </InputGroup>
-
+                        <InputGroup
+                          size="lg"
+                          display={"flex"}
+                          gap={"12px"}
+                          w={"100%"}
+                        >
+                          {category ? (
+                            <Textarea
+                              placeholder="Type Another Category Here"
+                              name="categoryInput"
+                              onChange={handleOtherFieldInputChange}
+                              borderColor={"GrayText"}
+                            />
+                          ) : (
+                            ""
+                          )}
+                          {paidVia ? (
+                            <Textarea
+                              placeholder="Type payment another method Here"
+                              name="paidViaInput"
+                              onChange={handleOtherFieldInputChange}
+                              borderColor={"GrayText"}
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </InputGroup>
                         <InputGroup
                           size="lg"
                           display={"flex"}

@@ -14,17 +14,15 @@ import {
   Stack,
   ModalHeader,
   Select,
-  Icon,
   Textarea,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { CommonModalProps } from "../../types";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import { CustomButton } from "../common/Button";
 import { useDispatch } from "react-redux";
-import { addExpense, addIncome, updateIncome } from "@/services/slices/expense-trackerSlice";
+import {addIncome, updateIncome } from "@/services/slices/expense-trackerSlice";
 import { RootState } from "@/services/redux-store/store";
 import { useAppSelector } from "@/hooks/dispatchSelectHook";
 import { IncomeModalProps } from "@/types/Income";
@@ -35,8 +33,13 @@ const initialValues = {
   category: "Salary",
   description: "",
 };
+let receivedViaInput=false;
 export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
   const { onClose } = useDisclosure();
+  const [receivedVia, setReceivedVia] = React.useState(false);
+  const [otherField, setOtherField] = React.useState({
+    receivedViaInput: "",
+  });
   const dispatch = useDispatch();
   const toast = useToast();
   const incomeData = useAppSelector(
@@ -63,7 +66,51 @@ export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
     onClose();
     setIsOpen(false);
   };
+  const handleOtherFieldInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setOtherField((prevData: any) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
   const handleAddIncome = (values: any) => {
+    if (values) {
+      const id = Date.now();
+      if (receivedVia) {
+        receivedViaInput=true;
+        if(otherField.receivedViaInput===""){
+          toast({
+            position: "top-right",
+            description: "Received other Input field can't be empty.",
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+          });
+          return ;
+        }else{
+          dispatch(addIncome({...values,id,...otherField}));
+          receivedViaInput=false;
+          toast({
+            position: "top-right",
+            description: "Income added Sucessfully.",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+          handleClose();
+          return ;
+        }
+      }
+      dispatch(addIncome({ ...values, id }));
+      toast({
+        position: "top-right",
+        description: "Income added Sucessfully.",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      handleClose();
+    }
     const id = Date.now();
     dispatch(addIncome({ ...values, id }));
     toast({
@@ -75,6 +122,7 @@ export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
     });
     handleClose();
   };
+  
   const handleUpdateIncome = (values: any) => {
     if (editId) {
       dispatch(updateIncome({ ...values, id: editId }));
@@ -201,7 +249,10 @@ export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
                             <FormLabel>Category</FormLabel>
                             <Select
                               placeholder=""
-                              onChange={handleChange}
+                              onChange={(e)=>{
+                                handleChange(e);
+                                setReceivedVia(e.target.value==='other')
+                              }}
                               name="category"
                               borderColor={"GrayText"}
                               defaultValue={IncomeUpdateValue?.category}
@@ -217,7 +268,13 @@ export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
                             </Select>
                           </Box>
                         </InputGroup>
-
+                        {receivedVia?
+                        <Textarea
+                            placeholder="Other Medium for receiving payment"
+                            onChange={handleOtherFieldInputChange}
+                            name="receivedViaInput"
+                            borderColor={"GrayText"}
+                          />:""}
                         <InputGroup
                           size="lg"
                           display={"flex"}

@@ -18,3 +18,6 @@ export interface IncomeModalProps{
     setIsOpen:React.Dispatch<SetStateAction<boolean>>
     editId?:number;
 }
+export interface IncomeFormForReceivedInput extends IncomeFormData{
+    receivedVaiInput:string;
+}
