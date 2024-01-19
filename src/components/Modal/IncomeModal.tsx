@@ -137,7 +137,7 @@ export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
           });
           return ;
         }else{
-          dispatch(addIncome({...values,id:editId,receivedVaiInput:otherField.receivedViaInput}));
+          dispatch(updateIncome({...values,id:editId,receivedVaiInput:otherField.receivedViaInput}));
           receivedViaInput=false;
           toast({
             position: "top-right",

@@ -156,9 +156,20 @@ export function ExpensesModal({
     }
   };
   const handleUpdateExpense = (values: any) => {
+    const value={
+      name_type: values?.name_type,
+  price:values?.price,
+  spendDate:values?.spendDate,
+  category:values?.category,
+  paidVia:values?.paidVia,
+  description:values?.description,
+  paidViaInput:otherField?.paidViaInput,
+  categoryInput:otherField?.categoryInput,
+
+    }
+    console.log(value,"value update Expens inside");
     if (editId) {
-      if (values) {
-        const id = Date.now();
+      if (values){
         if (paidVia && category) {
           paidViaInput=true;
           categoryInput=true;
@@ -182,7 +193,7 @@ export function ExpensesModal({
             return ;
           }
           else{
-            dispatch(addExpense({...values,id,categoryInput:otherField.categoryInput,paidViaInput:otherField.paidViaInput}));
+            dispatch(addExpense({...value,id:editId,}));
             paidViaInput=false;
             categoryInput=false;
             toast({
@@ -207,7 +218,7 @@ export function ExpensesModal({
             return;
           }
           else{
-            dispatch(addExpense({...values,id,paidViaInput:otherField.paidViaInput}));
+            dispatch(addExpense({...value,id:editId}));
             paidViaInput=false;
             categoryInput=false;
             toast({
@@ -231,7 +242,7 @@ export function ExpensesModal({
             });
             return;
           }else{
-            dispatch(addExpense({...values,id,categoryInput:otherField.categoryInput}));
+            dispatch(updateExpense({...value,id:editId}));
             paidViaInput=false;
             categoryInput=false;
             toast({
@@ -245,17 +256,18 @@ export function ExpensesModal({
             return ;
           }
         }
-        dispatch(addExpense({ ...values, id }));
-        toast({
-          position: "top-right",
-          description: "Expense updated Sucessfully.",
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-        });
-        handleClose();
+        // dispatch(addExpense({ ...value, id:editId }));
+        // toast({
+        //   position: "top-right",
+        //   description: "Expense updated Sucessfully.",
+        //   status: "success",
+        //   duration: 2000,
+        //   isClosable: true,
+        // });
+        // handleClose();
+        // return;
       }
-      dispatch(updateExpense({ ...values, id: editId }));
+      dispatch(updateExpense({ ...value, id: editId }));
       toast({
         position: "top-right",
         description: "Expense updated Sucessfully.",
@@ -264,6 +276,7 @@ export function ExpensesModal({
         isClosable: true,
       });
       handleClose();
+      return ;
     }
   };
   return (
