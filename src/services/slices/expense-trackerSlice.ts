@@ -1,10 +1,5 @@
-import {
-  ExpenseFormData,
-  ExpenseFormForCategory,
-  ExpenseFormForPaidVia,
-  ExpenseFormForCategoryPaid,
-} from "@/types/Expense";
-import { IncomeFormData} from "@/types/Income";
+import { ExpenseFormData } from "@/types/Expense";
+import { IncomeFormData } from "@/types/Income";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 const expensesIntialState: ExpenseFormData[] = [];
 const incomeInitialState: IncomeFormData[] = [];
@@ -12,7 +7,6 @@ const initialState = {
   expenses: expensesIntialState,
   income: incomeInitialState,
 };
-
 
 export const expenseTrackerSlice = createSlice({
   name: "expenseTracker",

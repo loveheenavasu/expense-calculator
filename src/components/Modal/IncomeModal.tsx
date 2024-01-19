@@ -32,23 +32,18 @@ const initialValues = {
   receivedDate: "",
   category: "Salary",
   description: "",
+  receivedViaInput:"",
 };
 let receivedViaInput=false;
 export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
   const { onClose } = useDisclosure();
   const [receivedVia, setReceivedVia] = React.useState(false);
-  const [otherField, setOtherField] = React.useState({
-    receivedViaInput: "",
-  });
   const dispatch = useDispatch();
   const toast = useToast();
-  const incomeData = useAppSelector(
-    (state: RootState) => state.expenses.income
-  );
-  console.log("income Data:",incomeData);
   const IncomeUpdateValue = useAppSelector((state: RootState) =>
-  state.expenses.income.filter((item) => item.id === editId)
+  state.expenses.income.filter((item) => item?.id === editId)
 )[0];
+console.log(IncomeUpdateValue?.receivedVaiInput,'incomeUpdateValue');
   const validationSchema = Yup.object().shape({
     name_type: Yup.string()
       .required("Name is required")
@@ -66,19 +61,13 @@ export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
     onClose();
     setIsOpen(false);
   };
-  const handleOtherFieldInputChange = (e: any) => {
-    const { name, value } = e.target;
-    setOtherField((prevData: any) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+
   const handleAddIncome = (values: any) => {
+    const id = Date.now();
     if (values) {
-      const id = Date.now();
       if (receivedVia) {
         receivedViaInput=true;
-        if(otherField.receivedViaInput===""){
+        if(values?.receivedViaInput===""){
           toast({
             position: "top-right",
             description: "Received other Input field can't be empty.",
@@ -88,7 +77,7 @@ export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
           });
           return ;
         }else{
-          dispatch(addIncome({...values,id,receivedVaiInput:otherField.receivedViaInput}));
+          dispatch(addIncome({...values,id}));
           receivedViaInput=false;
           toast({
             position: "top-right",
@@ -102,6 +91,7 @@ export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
         }
       }
       dispatch(addIncome({ ...values, id }));
+      receivedViaInput=false;
       toast({
         position: "top-right",
         description: "Income added Sucessfully.",
@@ -111,43 +101,44 @@ export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
       });
       handleClose();
     }
-    const id = Date.now();
-    dispatch(addIncome({ ...values, id }));
-    toast({
-      position: "top-right",
-      description: "Income added Sucessfully.",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-    handleClose();
+    // dispatch(addIncome({ ...values, id }));
+    // toast({
+    //   position: "top-right",
+    //   description: "Income added Sucessfully.",
+    //   status: "success",
+    //   duration: 2000,
+    //   isClosable: true,
+    // });
+    // handleClose();
   };
   
   const handleUpdateIncome = (values: any) => {
     if (editId) {
-      if (receivedVia) {
-        receivedViaInput=true;
-        if(otherField.receivedViaInput===""){
-          toast({
-            position: "top-right",
-            description: "Received other Input field can't be empty.",
-            status: "error",
-            duration: 2000,
-            isClosable: true,
-          });
-          return ;
-        }else{
-          dispatch(updateIncome({...values,id:editId,receivedVaiInput:otherField.receivedViaInput}));
-          receivedViaInput=false;
-          toast({
-            position: "top-right",
-            description: "Income Updated Sucessfully.",
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-          });
-          handleClose();
-          return ;
+      if(values){
+        if (receivedVia) {
+          receivedViaInput=true;
+          if(values.receivedViaInput===""){
+            toast({
+              position: "top-right",
+              description: "Received other Input field can't be empty.",
+              status: "error",
+              duration: 2000,
+              isClosable: true,
+            });
+            return ;
+          }else{
+            dispatch(updateIncome({...values,id:editId}));
+            receivedViaInput=false;
+            toast({
+              position: "top-right",
+              description: "Income Updated Sucessfully.",
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
+            handleClose();
+            return ;
+          }
         }
       }
       dispatch(updateIncome({ ...values, id: editId }));
@@ -296,7 +287,7 @@ export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
                         {receivedVia?
                         <Textarea
                             placeholder="Other Medium for receiving payment"
-                            onChange={handleOtherFieldInputChange}
+                            onChange={handleChange}
                             name="receivedViaInput"
                             borderColor={"GrayText"}
                             defaultValue={IncomeUpdateValue?.receivedVaiInput}
