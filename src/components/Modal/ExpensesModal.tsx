@@ -34,6 +34,8 @@ const initialValues = {
   category: "food",
   paidVia: "upi",
   description: "",
+  paidViaInput:"",
+  categoryInput:""
 };
 let paidViaInput=false;
 let categoryInput=false;
@@ -43,7 +45,7 @@ export function ExpensesModal({
   editId,
 }: ExpenseModalProps) {
   const expenseUpdateValue = useAppSelector((state: RootState) =>
-    state.expenses.expenses.filter((item) => item.id === editId)
+    state.expenses.expenses.filter((item:any) => item.id === editId)
   )[0];
   const [category, setCategory] = useState(false);
   const [paidVia, setPaidVia] = useState(false);
@@ -95,7 +97,17 @@ export function ExpensesModal({
             isClosable: true,
           });
           return ;
-        }else{
+        }else if(otherField.categoryInput===''||otherField.paidViaInput===''){
+          toast({
+            position: "top-right",
+            description: "Other Input field can't be empty.",
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+          });
+          return ;
+        }
+        else{
           dispatch(addExpense({...values,id,...otherField}));
           paidViaInput=false;
           categoryInput=false;
@@ -145,6 +157,104 @@ export function ExpensesModal({
   };
   const handleUpdateExpense = (values: any) => {
     if (editId) {
+      if (values) {
+        const id = Date.now();
+        if (paidVia && category) {
+          paidViaInput=true;
+          categoryInput=true;
+          if(values?.categoryInput===''&&values.paidViaInput===''){
+            toast({
+              position: "top-right",
+              description: "Category and Paid other Input field can't be empty.",
+              status: "error",
+              duration: 2000,
+              isClosable: true,
+            });
+            return ;
+          }else if(values?.categoryInput===''||values?.paidViaInput===''){
+            toast({
+              position: "top-right",
+              description: "Other Input field can't be empty.",
+              status: "error",
+              duration: 2000,
+              isClosable: true,
+            });
+            return ;
+          }
+          else{
+            dispatch(addExpense({...values,id,categoryInput:otherField.categoryInput,paidViaInput:otherField.paidViaInput}));
+            paidViaInput=false;
+            categoryInput=false;
+            toast({
+              position: "top-right",
+              description: "Expenses updated with other options you describe.",
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
+            handleClose();
+            return ;
+          }
+        } else if (paidVia) {
+          if (otherField.paidViaInput === "") {
+            toast({
+              position: "top-right",
+              description: "PaidVia other Input field can't be empty.",
+              status: "error",
+              duration: 2000,
+              isClosable: true,
+            });
+            return;
+          }
+          else{
+            dispatch(addExpense({...values,id,paidViaInput:otherField.paidViaInput}));
+            paidViaInput=false;
+            categoryInput=false;
+            toast({
+              position: "top-right",
+              description: "Expenses updated with other options you describe.",
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
+            handleClose();
+            return ;
+          }
+        } else if (category) {
+          if (otherField.categoryInput=== "") {
+            toast({
+              position: "top-right",
+              description: "Category other Input field can't be empty.",
+              status: "error",
+              duration: 2000,
+              isClosable: true,
+            });
+            return;
+          }else{
+            dispatch(addExpense({...values,id,categoryInput:otherField.categoryInput}));
+            paidViaInput=false;
+            categoryInput=false;
+            toast({
+              position: "top-right",
+              description: "Expenses updated with other options you describe.",
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
+            handleClose();
+            return ;
+          }
+        }
+        dispatch(addExpense({ ...values, id }));
+        toast({
+          position: "top-right",
+          description: "Expense updated Sucessfully.",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+        handleClose();
+      }
       dispatch(updateExpense({ ...values, id: editId }));
       toast({
         position: "top-right",
@@ -320,6 +430,7 @@ export function ExpensesModal({
                               name="categoryInput"
                               onChange={handleOtherFieldInputChange}
                               borderColor={"GrayText"}
+                              defaultValue={expenseUpdateValue?.categoryInput}
                             />
                           ) : (
                             ""
@@ -330,6 +441,7 @@ export function ExpensesModal({
                               name="paidViaInput"
                               onChange={handleOtherFieldInputChange}
                               borderColor={"GrayText"}
+                              defaultValue={expenseUpdateValue?.paidViaInput}
                             />
                           ) : (
                             ""

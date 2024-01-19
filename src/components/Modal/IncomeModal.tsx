@@ -45,7 +45,7 @@ export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
   const incomeData = useAppSelector(
     (state: RootState) => state.expenses.income
   );
- 
+  console.log("income Data:",incomeData);
   const IncomeUpdateValue = useAppSelector((state: RootState) =>
   state.expenses.income.filter((item) => item.id === editId)
 )[0];
@@ -88,7 +88,7 @@ export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
           });
           return ;
         }else{
-          dispatch(addIncome({...values,id,...otherField}));
+          dispatch(addIncome({...values,id,receivedVaiInput:otherField.receivedViaInput}));
           receivedViaInput=false;
           toast({
             position: "top-right",
@@ -125,6 +125,31 @@ export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
   
   const handleUpdateIncome = (values: any) => {
     if (editId) {
+      if (receivedVia) {
+        receivedViaInput=true;
+        if(otherField.receivedViaInput===""){
+          toast({
+            position: "top-right",
+            description: "Received other Input field can't be empty.",
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+          });
+          return ;
+        }else{
+          dispatch(addIncome({...values,id:editId,receivedVaiInput:otherField.receivedViaInput}));
+          receivedViaInput=false;
+          toast({
+            position: "top-right",
+            description: "Income Updated Sucessfully.",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          });
+          handleClose();
+          return ;
+        }
+      }
       dispatch(updateIncome({ ...values, id: editId }));
       toast({
         position: "top-right",
@@ -274,6 +299,7 @@ export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
                             onChange={handleOtherFieldInputChange}
                             name="receivedViaInput"
                             borderColor={"GrayText"}
+                            defaultValue={IncomeUpdateValue?.receivedVaiInput}
                           />:""}
                         <InputGroup
                           size="lg"

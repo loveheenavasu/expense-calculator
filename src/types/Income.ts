@@ -11,13 +11,11 @@ export interface IncomeFormData{
     receivedDate:string,
     category:string,
     description:string,
-    id:number
+    id:number,
+    receivedVaiInput?:string;
 }
 export interface IncomeModalProps{
     isOpen:boolean;
     setIsOpen:React.Dispatch<SetStateAction<boolean>>
     editId?:number;
-}
-export interface IncomeFormForReceivedInput extends IncomeFormData{
-    receivedVaiInput:string;
 }

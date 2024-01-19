@@ -4,7 +4,7 @@ import {
   ExpenseFormForPaidVia,
   ExpenseFormForCategoryPaid,
 } from "@/types/Expense";
-import { IncomeFormData, IncomeFormForReceivedInput } from "@/types/Income";
+import { IncomeFormData} from "@/types/Income";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 const expensesIntialState: ExpenseFormData[] = [];
 const incomeInitialState: IncomeFormData[] = [];
@@ -12,21 +12,16 @@ const initialState = {
   expenses: expensesIntialState,
   income: incomeInitialState,
 };
-type ExpensePayloadType =
-  | ExpenseFormForCategory
-  | ExpenseFormForPaidVia
-  | ExpenseFormForCategoryPaid;
 
 
-type IncomePaylodType=IncomeFormForReceivedInput|IncomeFormData;
 export const expenseTrackerSlice = createSlice({
   name: "expenseTracker",
   initialState,
   reducers: {
-    addExpense: (state, action: PayloadAction<ExpensePayloadType>) => {
+    addExpense: (state, action: PayloadAction<ExpenseFormData>) => {
       state.expenses = state.expenses.concat(action.payload);
     },
-    addIncome: (state, action: PayloadAction<IncomePaylodType>) => {
+    addIncome: (state, action: PayloadAction<IncomeFormData>) => {
       state.income = state.income.concat(action.payload);
     },
     deleteExpenseById: (state, action) => {
@@ -39,13 +34,13 @@ export const expenseTrackerSlice = createSlice({
         (income) => income.id !== action.payload
       );
     },
-    updateExpense: (state, action: PayloadAction<ExpensePayloadType>) => {
+    updateExpense: (state, action: PayloadAction<ExpenseFormData>) => {
       const updatedExpenseIndex = state.expenses.findIndex(
         (expense) => expense.id === action.payload.id
       );
       state.expenses[updatedExpenseIndex] = action.payload;
     },
-    updateIncome: (state, action: PayloadAction<IncomePaylodType>) => {
+    updateIncome: (state, action: PayloadAction<IncomeFormData>) => {
       const updatedIncomeIndex = state.income.findIndex(
         (income) => income.id === action.payload.id
       );

@@ -12,7 +12,9 @@ export interface ExpenseFormData {
     category: string;
     paidVia: string;
     description: string;
-    id:number
+    id:number;
+    categoryInput?:string
+    paidViaInput?:string
   }
 export interface ExpenseModalProps{
     isOpen:boolean;
