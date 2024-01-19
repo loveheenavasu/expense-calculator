@@ -12,7 +12,7 @@ export interface IncomeFormData{
     category:string,
     description:string,
     id:number,
-    receivedVaiInput?:string;
+    receivedInput?:string;
 }
 export interface IncomeModalProps{
     isOpen:boolean;

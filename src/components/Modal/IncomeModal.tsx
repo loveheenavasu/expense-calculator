@@ -30,9 +30,9 @@ const initialValues = {
   name_type: "",
   amount: 0,
   receivedDate: "",
-  category: "Salary",
+  category: "salary",
   description: "",
-  receivedViaInput:"",
+  receivedInput:"",
 };
 let receivedViaInput=false;
 export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
@@ -43,7 +43,6 @@ export function IncomeModal({ isOpen, setIsOpen,editId}: IncomeModalProps) {
   const IncomeUpdateValue = useAppSelector((state: RootState) =>
   state.expenses.income.filter((item) => item?.id === editId)
 )[0];
-console.log(IncomeUpdateValue?.receivedVaiInput,'incomeUpdateValue');
   const validationSchema = Yup.object().shape({
     name_type: Yup.string()
       .required("Name is required")
@@ -101,15 +100,6 @@ console.log(IncomeUpdateValue?.receivedVaiInput,'incomeUpdateValue');
       });
       handleClose();
     }
-    // dispatch(addIncome({ ...values, id }));
-    // toast({
-    //   position: "top-right",
-    //   description: "Income added Sucessfully.",
-    //   status: "success",
-    //   duration: 2000,
-    //   isClosable: true,
-    // });
-    // handleClose();
   };
   
   const handleUpdateIncome = (values: any) => {
@@ -150,6 +140,7 @@ console.log(IncomeUpdateValue?.receivedVaiInput,'incomeUpdateValue');
         isClosable: true,
       });
       handleClose();
+      return ;
     }
   };
   return (
@@ -196,7 +187,7 @@ console.log(IncomeUpdateValue?.receivedVaiInput,'incomeUpdateValue');
                       : handleAddIncome(values);
                   }}
                 >
-                  {({ handleChange, values, errors }) => (
+                  {({ handleChange,errors }) => (
                     <Form>
                       <Stack spacing={6}>
                         <InputGroup
@@ -288,9 +279,9 @@ console.log(IncomeUpdateValue?.receivedVaiInput,'incomeUpdateValue');
                         <Textarea
                             placeholder="Other Medium for receiving payment"
                             onChange={handleChange}
-                            name="receivedViaInput"
+                            name="receivedInput"
                             borderColor={"GrayText"}
-                            defaultValue={IncomeUpdateValue?.receivedVaiInput}
+                            defaultValue={IncomeUpdateValue?.receivedInput}
                           />:""}
                         <InputGroup
                           size="lg"
